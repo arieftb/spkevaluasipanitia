@@ -21,12 +21,11 @@
                 );
 
                 $login_data = $this->M_user->get_login_data($data);
-                $login_data_result = $login_data->result();
 
-                if($login_data->num_rows() > 0) {
+                if(sizeof($login_data) > 0) {
                     echo "<script>alert('Logged In');
                     window.location.href='". base_url('home') ."';</script>";
-                    // redirect(base_url('home'));
+                    redirect(base_url('home'));
                 } else {
                     echo "<script>alert('Email Or Password Is Not Match');
                     window.location.href='". base_url('login') ."';</script>";
