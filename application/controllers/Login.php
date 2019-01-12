@@ -5,6 +5,11 @@
         {
             parent::__construct();
             $this->load->model('M_site');
+            $this->load->model('M_user');
+
+            if($this->M_user->get_login_status()) {
+                redirect(base_url('home'));
+            }
         }
 
         public function index()

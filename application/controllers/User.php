@@ -23,9 +23,10 @@
                 $login_data = $this->M_user->get_login_data($data);
 
                 if(sizeof($login_data) > 0) {
+                    $this->session->set_userdata($login_data[0]);
+
                     echo "<script>alert('Logged In');
                     window.location.href='". base_url('home') ."';</script>";
-                    redirect(base_url('home'));
                 } else {
                     echo "<script>alert('Email Or Password Is Not Match');
                     window.location.href='". base_url('login') ."';</script>";
@@ -34,6 +35,12 @@
                 echo "<script>alert('Email Or Password Is Empty');
                     window.location.href='". base_url('login') ."';</script>";
             }
+        }
+
+        public function logout()
+        {
+            $this->session->sess_destroy();
+            redirect(base_url('login'));
         }
     }
 ?>

@@ -19,5 +19,10 @@
 
             return $user_data;
         }
+
+        public function get_login_status()
+        {
+            return $this->session->userdata('id');
+        }
     }
 ?>

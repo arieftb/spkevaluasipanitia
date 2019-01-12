@@ -4,7 +4,7 @@
         public function get_login_site()
         {
             $data = array(
-                'title' => 'Login'            
+                'title' => LOGIN_TITLE            
             );
 
             return $data;
@@ -13,7 +13,7 @@
         public function get_home_site()
         {
             $data = array(
-                'title' => 'Home'            
+                'title' => HOME_TITLE        
             );
 
             return $data;

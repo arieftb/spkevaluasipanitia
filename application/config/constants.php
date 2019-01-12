@@ -88,6 +88,10 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 // WEBSITE DATA
 define('WEB_TITLE', 'SPK Evaluasi Kinerja Panitia');
 
+// Menu Title
+define('LOGIN_TITLE', 'Login');
+define('HOME_TITLE', 'Home');
+
 // TABLE NAME
 define('TB_MEMBER', 'member');
 define('TB_PENGURUS', 'pengurus');
