@@ -10,7 +10,7 @@
             $user_data = $this->db->get()->result_array();
 
             if(sizeof($user_data) > 0) {
-                if($user_data[0]['posisi'] == 'Ketua') {
+                if($user_data[0]['posisi'] == 'Ketua' || $user_data[0]['posisi'] == 'Wakil Ketua') {
                     $user_data[0]['role'] = 0;
                 } else {
                     $user_data[0]['role'] = 1;

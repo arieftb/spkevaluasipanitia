@@ -20,22 +20,39 @@
 <script src="<?php echo base_url() ?>res/plugins/raphael/raphael.min.js"></script>
 <script src="<?php echo base_url() ?>res/plugins/morrisjs/morris.js"></script>
 
-<!-- ChartJs -->
-<script src="<?php echo base_url() ?>res/plugins/chartjs/Chart.bundle.js"></script>
+ <!-- Autosize Plugin Js -->
+ <script src="<?php echo base_url() ?>res/plugins/autosize/autosize.js"></script>
 
-<!-- Flot Charts Plugin Js -->
-<script src="<?php echo base_url() ?>res/plugins/flot-charts/jquery.flot.js"></script>
-<script src="<?php echo base_url() ?>res/plugins/flot-charts/jquery.flot.resize.js"></script>
-<script src="<?php echo base_url() ?>res/plugins/flot-charts/jquery.flot.pie.js"></script>
-<script src="<?php echo base_url() ?>res/plugins/flot-charts/jquery.flot.categories.js"></script>
-<script src="<?php echo base_url() ?>res/plugins/flot-charts/jquery.flot.time.js"></script>
+<!-- Moment Plugin Js -->
+<script src="<?php echo base_url() ?>res/plugins/momentjs/moment.js"></script>
 
-<!-- Sparkline Chart Plugin Js -->
-<script src="<?php echo base_url() ?>res/plugins/jquery-sparkline/jquery.sparkline.js"></script>
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="<?php echo base_url() ?>res/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+ <!-- Bootstrap Datepicker Plugin Js -->
+ <script src="<?php echo base_url() ?>res/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+     <!-- Waves Effect Plugin Js -->
+     <script src="<?php echo base_url() ?>res/plugins/node-waves/waves.js"></script>
+
+<!-- Jquery DataTable Plugin Js -->
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+<script src="<?php echo base_url() ?>res/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
 
 <!-- Custom Js -->
 <script src="<?php echo base_url() ?>res/js/admin.js"></script>
-<script src="<?php echo base_url() ?>res/js/pages/index.js"></script>
+    <script src="<?php echo base_url() ?>res/js/pages/forms/basic-form-elements.js"></script>
+<script src="<?php echo base_url() ?>res/js/pages/tables/jquery-datatable.js"></script>
+
+
 
 <!-- Demo Js -->
 <script src="<?php echo base_url() ?>res/js/demo.js"></script>

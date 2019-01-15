@@ -26,9 +26,15 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class=" <?= $title == HOME_TITLE ? 'active' : '' ?> ">
-                        <a href="index.html">
+                        <a href="<?= base_url(). 'home' ?>">
                             <i class="material-icons">home</i>
                             <span>Home</span>
+                        </a>
+                    </li>
+                    <li class=" <?= $title == KEGIATAN_TITLE ? 'active' : '' ?> ">
+                        <a href="<?= base_url(). 'kegiatan' ?>">
+                            <i class="material-icons">date_range</i>
+                            <span>Kegiatan</span>
                         </a>
                     </li>
                 </ul>

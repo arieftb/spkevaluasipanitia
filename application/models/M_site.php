@@ -18,5 +18,14 @@
 
             return $data;
         }
+
+        public function get_kegiatan_site()
+        {
+            $data = array(
+                'title' => KEGIATAN_TITLE        
+            );
+
+            return $data;
+        }
     }
 ?>

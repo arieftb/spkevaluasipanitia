@@ -22,6 +22,12 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url() ?>res/plugins/animate-css/animate.css" rel="stylesheet" />
 
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="<?php echo base_url() ?>res/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+
+    <!-- Bootstrap DatePicker Css -->
+    <link href="<?php echo base_url() ?>res/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
     <!-- Morris Chart Css-->
     <link href="<?php echo base_url() ?>res/plugins/morrisjs/morris.css" rel="stylesheet" />
 
