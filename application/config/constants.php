@@ -97,3 +97,8 @@ define('KEGIATAN_TITLE', 'Kegiatan');
 define('TB_MEMBER', 'member');
 define('TB_PENGURUS', 'pengurus');
 define('TB_KEGIATAN', 'kegiatan');
+define('TB_DEPTDIVISI', 'deptdivisi');
+define('TB_PERIODE', 'periode');
+define('TB_ROLE', 'role');
+define('TB_PANITIA', 'panitia');
+define('TB_SIE', 'sie');

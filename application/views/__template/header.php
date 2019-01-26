@@ -10,7 +10,8 @@
     <link rel="icon" href="<?php echo base_url() ?>res/favicon.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -23,13 +24,19 @@
     <link href="<?php echo base_url() ?>res/plugins/animate-css/animate.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="<?php echo base_url() ?>res/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <link
+        href="<?php echo base_url() ?>res/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
-    <link href="<?php echo base_url() ?>res/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="<?php echo base_url() ?>res/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css"
+        rel="stylesheet" />
 
     <!-- Morris Chart Css-->
     <link href="<?php echo base_url() ?>res/plugins/morrisjs/morris.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="<?php echo base_url() ?>res/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="<?php echo base_url() ?>res/css/style.css" rel="stylesheet">
@@ -39,8 +46,8 @@
 </head>
 
 <body class="theme-blue">
-<!-- Page Loader -->
-<div class="page-loader-wrapper">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
         <div class="loader">
             <div class="preloader">
                 <div class="spinner-layer pl-red">

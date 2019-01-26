@@ -21,9 +21,12 @@
                 );
 
                 $login_data = $this->M_user->get_login_data($data);
+                $login_role = $this->M_user->get_login_role($login_data[0]['id_member']);
+                $login_data[0]['user_role'] = $login_role;
 
                 if(sizeof($login_data) > 0) {
-                    $this->session->set_userdata($login_data[0]);
+                    $this->session->set_userdata($login_data[0]);                
+                    // print_r(json_encode($login_data(0)));
 
                     echo "<script>alert('Logged In');
                     window.location.href='". base_url('home') ."';</script>";

@@ -35,6 +35,9 @@
      <!-- Waves Effect Plugin Js -->
      <script src="<?php echo base_url() ?>res/plugins/node-waves/waves.js"></script>
 
+       <!-- Select Plugin Js -->
+    <script src="<?php echo base_url() ?>res/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
 <!-- Jquery DataTable Plugin Js -->
 <script src="<?php echo base_url() ?>res/plugins/jquery-datatable/jquery.dataTables.js"></script>
 <script src="<?php echo base_url() ?>res/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
