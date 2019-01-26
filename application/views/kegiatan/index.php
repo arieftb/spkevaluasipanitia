@@ -42,7 +42,7 @@
         <!-- END SELECT PERIODE -->
 
         <!-- Form Kegiatan -->
-        <?php if ($id_periode != null && $id_role == 1) { ?>
+        <?php if (($id_periode != null && $id_role == 1) || $edit_kegiatan != null ) { ?>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">

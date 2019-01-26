@@ -108,33 +108,42 @@ class Kegiatan extends CI_Controller
         $data_site = $this->M_site->get_kegiatan_site();
         $data_user = $this->session->userdata();
 
-        $data_kegiatan = $this->M_kegiatan->get_kegiatan();
+        // $data_kegiatan = $this->M_kegiatan->get_kegiatan();
         $edit_kegiatan = $this->M_kegiatan->get_kegiatan_by_id($id_kegiatan);
 
-        $kegiatan = array(
-            'kegiatan' => $data_kegiatan,
-            'edit_kegiatan' => $edit_kegiatan[0]
-        );
-        $data = array_merge($data_site, $data_user, $kegiatan);
-
-        // print_r(json_encode($data));
-
-        $this->load->view('__template/header', $data);
-        $this->load->view('__template/topbar');
-        $this->load->view('__template/leftbar');
-        $this->load->view('kegiatan/index');
-        $this->load->view('__template/footer');
+        if ($edit_kegiatan != null) {
+            $kegiatan = array(
+                'kegiatan' => $this->M_kegiatan->get_kegiatan($edit_kegiatan[0]['id_periode']),
+                'edit_kegiatan' => $edit_kegiatan[0],
+                'id_periode' => $edit_kegiatan[0]['id_periode'],
+                'id_role' =>  null,
+                'periode' => $this->M_periode->get_periode_by_id_member($data_user['id_member'])
+            );
+    
+            $data = array_merge($data_site, $data_user, $kegiatan);
+    
+            // print_r(json_encode($kegiatan));
+    
+            $this->load->view('__template/header', $data);
+            $this->load->view('__template/topbar');
+            $this->load->view('__template/leftbar');
+            $this->load->view('kegiatan/index');
+            $this->load->view('__template/footer');   
+        } else {
+            echo "<script>alert('Anda Tak Memiliki Akses Pada Kegiatan Ini');
+            window.location.href='" . base_url('kegiatan') . "';</script>";
+        }
     }
 
-    public function update($id)
+    public function update($id_kegiatan)
     {
         $data = array(
-            'nama' => $this->input->post('nama'),
-            'tema' => $this->input->post('tema'),
-            'pelaksanaan' => date('Y-m-d', strtotime($this->input->post('pelaksanaan')))
+            'nama_kegiatan' => $this->input->post('nama_kegiatan'),
+            'tema_kegiatan' => $this->input->post('tema_kegiatan'),
+            'pelaksanaan_kegiatan' => date('Y-m-d', strtotime($this->input->post('pelaksanaan_kegiatan')))
         );
 
-        if ($this->M_kegiatan->update_kegiatan($id, $data)) {
+        if ($this->M_kegiatan->update_kegiatan($id_kegiatan, $data)) {
             echo "<script>alert('Sunting Kegiatan Berhasil');
             window.location.href='" . base_url('kegiatan') . "';</script>";
         } else {

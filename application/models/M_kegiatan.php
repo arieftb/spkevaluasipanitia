@@ -62,57 +62,64 @@
 
         public function get_kegiatan_by_id($id)
         {
-            if($this->session->userdata('role') == 0) {
-                $data = $this->get_kegiatan_by_id_superadmin($id);
+            $this->load->model('M_user', 'M_user');
+            if($this->M_user->is_super_admin_by_id_kegiatan($id)) {
+                $data = $this->get_kegiatan_by_id_kegiatan($id);
+            } else if ($this->M_user->is_ketua_by_id_kegiatan($id)) {
+                $data = $this->get_kegiatan_by_id_kegiatan($id);
             } else {
-
+                $data = null;
             }
 
             return $data;
         }
 
-        private function get_kegiatan_by_id_superadmin($id)
+        private function get_kegiatan_by_id_kegiatan($id)
         {
             $this->db->from(TB_KEGIATAN);
-            $this->db->where('id', $id);
+            $this->db->where('id_kegiatan', $id);
 
             return $this->db->get()->result_array();
         }
 
 
-        public function remove_kegiatan($id) {
-            if($this->session->userdata('role') == 0) {
-                $status = $this->remove_kegiatan_by_superadmin($id);
+        public function remove_kegiatan($id_kegiatan) {
+            $this->load->model('M_user', 'M_user');
+            if($this->M_user->is_super_admin_by_id_kegiatan($id_kegiatan)) {
+                $status = $this->remove_kegiatan_by_id_kegiatan($id_kegiatan);
             } else {
-
+                $status = false;
             }
 
             return $status;
         }
 
-        private function remove_kegiatan_by_superadmin($id)
+        private function remove_kegiatan_by_id_kegiatan($id_kegiatan)
         {
-            $this->db->where('id', $id);
+            $this->db->where('id_kegiatan', $id_kegiatan);
             $this->db->delete(TB_KEGIATAN);
 
             return ($this->db->affected_rows() != 1) ? false : true;
         }
 
-        public function update_kegiatan($id, $data)
+        public function update_kegiatan($id_kegiatan, $data)
         {
-            if($this->session->userdata('role') == 0) {
-                $status = $this->update_kegiatan_by_superadmin($id, $data);
+            $this->load->model('M_user', 'M_user');
+            if($this->M_user->is_super_admin_by_id_kegiatan($id_kegiatan)) {
+                $status = $this->update_kegiatan_by_id_kegiatan($id_kegiatan, $data);
+            } else if ($this->M_user->is_ketua_by_id_kegiatan($id_kegiatan)) {
+                $status = $this->update_kegiatan_by_id_kegiatan($id_kegiatan, $data);
             } else {
-
+                $status = false;
             }
 
             return $status;
         }
 
-        private function update_kegiatan_by_superadmin($id, $data)
+        private function update_kegiatan_by_id_kegiatan($id, $data)
         {
             $this->db->set($data);
-            $this->db->where('id', $id);
+            $this->db->where('id_kegiatan', $id);
             $this->db->update(TB_KEGIATAN);
 
             return ($this->db->affected_rows() != 1) ? false : true;
