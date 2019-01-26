@@ -61,20 +61,21 @@
                             <div class="row clearfix">
                                 <div class="col-sm-4">
                                     <h2 class="card-inside-title">Periode</h2>
-                                    <select class="form-control show-tick" name="id_periode" disabled>
-                                        <option value="">-- Pilih Periode Kepengurusan --</option>
+                                    <select class="form-control show-tick" name="id_periode">
                                         <?php foreach ($periode as $PERIODE) { ?>
+                                        <?php if ($id_periode != null && $id_periode == $PERIODE['id_periode']) { ?>
                                         <option value=" <?= $PERIODE['id_periode'] ?> "
                                             <?= $id_periode != null && $id_periode == $PERIODE['id_periode'] ? 'selected' :'' ?>>
                                             <?= $PERIODE['tahun_periode'] ?>
                                         </option>
+                                        <?php } ?>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="email_address" class="form-control" name="nama"
+                                    <input type="text" id="email_address" class="form-control" name="nama_kegiatan"
                                         value="<?= $edit_kegiatan == null ? '' : $edit_kegiatan['nama_kegiatan'] ?>"
                                         required>
                                     <label class="form-label">Nama</label>
@@ -82,7 +83,7 @@
                             </div>
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="password" class="form-control" name="tema"
+                                    <input type="text" id="password" class="form-control" name="tema_kegiatan"
                                         value="<?= $edit_kegiatan == null ? '' : $edit_kegiatan['tema_kegiatan'] ?>"
                                         required>
                                     <label class="form-label">Tema</label>
@@ -92,7 +93,7 @@
                             <div class="form-group">
                                 <div id="bs_datepicker_container" class="form-line focused">
                                     <input type="text" class="form-control" placeholder="Tanggal Pelaksanaan"
-                                        name="pelaksanaan"
+                                        name="pelaksanaan_kegiatan"
                                         value="<?= $edit_kegiatan == null ? '' : date('d/m/Y', strtotime($edit_kegiatan['pelaksanaan_kegiatan'])) ?>"
                                         require>
                                 </div>

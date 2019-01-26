@@ -20,7 +20,6 @@ class Kegiatan extends CI_Controller
         $data_site = $this->M_site->get_kegiatan_site();
         $data_user = $this->session->userdata();
 
-        // $data_kegiatan = $this->M_kegiatan->get_kegiatan();
         $data_periode = $this->M_periode->get_periode_by_id_member($data_user['id_member']);
 
         $kegiatan = array(
@@ -76,11 +75,14 @@ class Kegiatan extends CI_Controller
     public function add()
     {
         $data = array(
-            'nama' => $this->input->post('nama'),
-            'tema' => $this->input->post('tema'),
-            'pelaksanaan' => date('Y-m-d', strtotime($this->input->post('pelaksanaan')))
+            'id_periode' => $this->input->post('id_periode'),
+            'nama_kegiatan' => $this->input->post('nama_kegiatan'),
+            'tema_kegiatan' => $this->input->post('tema_kegiatan'),
+            'pelaksanaan_kegiatan' => date('Y-m-d', strtotime($this->input->post('pelaksanaan_kegiatan')))
         );
 
+
+        // print_r(json_encode($data));
         if ($this->M_kegiatan->insert_kegiatan($data)) {
             echo "<script>alert('Tambah Kegiatan Berhasil');
             window.location.href='" . base_url('kegiatan') . "';</script>";
