@@ -55,6 +55,23 @@
             return $this->db->get()->result_array();
         }
 
+        public function get_role_by_kegiatan_and_member($id_kegiatan, $id_member)
+        {
+            $this->db->select();
+            $this->db->from(TB_KEGIATAN);
+            $this->db->join(TB_PANITIA, TB_PANITIA.'.id_kegiatan='.TB_KEGIATAN.'.id_kegiatan');
+            $this->db->where(TB_PANITIA.'.id_member', $id_member);
+            $this->db->where(TB_KEGIATAN.'.id_kegiatan', $id_kegiatan);
+
+            $data_user_role = $this->db->get()->result_array();
+
+            if ($data_user_role[0]['id_sie'] == 1) {
+                return '3';
+            } else {
+                return '4';
+            }
+        }
+
         public function is_super_admin_by_id_kegiatan($id_kegiatan)
         {
             $this->db->select(TB_ROLE.'.id_role');

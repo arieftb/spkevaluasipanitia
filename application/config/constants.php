@@ -92,6 +92,7 @@ define('WEB_TITLE', 'SPK Evaluasi Kinerja Panitia');
 define('LOGIN_TITLE', 'Login');
 define('HOME_TITLE', 'Home');
 define('KEGIATAN_TITLE', 'Kegiatan');
+define('PANITIA_TITLE', 'Panitia');
 
 // TABLE NAME
 define('TB_MEMBER', 'member');

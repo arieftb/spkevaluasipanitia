@@ -8,7 +8,7 @@
 
         <!-- Select Periode -->
         <div class="row clearfix">
-            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="card">
                     <div class="header">
                         <h2>

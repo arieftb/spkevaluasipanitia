@@ -27,5 +27,14 @@
 
             return $data;
         }
+
+        public function get_panitia_site()
+        {
+            $data = array(
+                'title' => PANITIA_TITLE        
+            );
+
+            return $data;
+        }
     }
 ?>

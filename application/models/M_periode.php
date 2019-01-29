@@ -10,6 +10,16 @@
 
             return $this->db->get()->result_array();
         }
+
+        public function get_periode_by_id_kegiatan($id_kegiatan)
+        {
+            $this->db->select();
+            $this->db->from(TB_PERIODE);
+            $this->db->join(TB_KEGIATAN, TB_KEGIATAN.'.id_periode='.TB_PERIODE.'.id_periode');
+            $this->db->where(TB_KEGIATAN.'.id_kegiatan', $id_kegiatan);
+
+            return $this->db->get()->result_array();
+        }
     }
     
 ?>

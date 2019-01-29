@@ -37,6 +37,12 @@
                             <span>Kegiatan</span>
                         </a>
                     </li>
+                    <li class=" <?= $title == PANITIA_TITLE ? 'active' : '' ?> ">
+                        <a href="<?= base_url(). 'panitia' ?>">
+                            <i class="material-icons">group</i>
+                            <span>Panitia</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->
