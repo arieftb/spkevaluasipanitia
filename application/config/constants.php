@@ -93,6 +93,7 @@ define('LOGIN_TITLE', 'Login');
 define('HOME_TITLE', 'Home');
 define('KEGIATAN_TITLE', 'Kegiatan');
 define('PANITIA_TITLE', 'Panitia');
+define('KRITERIA_TITLE', 'Kriteria');
 
 // TABLE NAME
 define('TB_MEMBER', 'member');
@@ -103,3 +104,5 @@ define('TB_PERIODE', 'periode');
 define('TB_ROLE', 'role');
 define('TB_PANITIA', 'panitia');
 define('TB_SIE', 'sie');
+define('TB_KRITERIA', 'kriteria');
+define('TB_KRITERIA_DETAIL', 'kriteria_detail');

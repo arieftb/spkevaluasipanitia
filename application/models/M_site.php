@@ -36,5 +36,14 @@
 
             return $data;
         }
+
+        public function get_kriteria_site()
+        {
+            $data = array(
+                'title' => KRITERIA_TITLE        
+            );
+
+            return $data;
+        }
     }
 ?>

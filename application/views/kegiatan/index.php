@@ -48,7 +48,7 @@
                 <div class="card">
                     <div class="header">
                         <div class="row clearfix">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-sm-12">
                                 <h2>
                                     <?= $edit_kegiatan == null ? 'Tambah Kegiatan' : 'Edit Kegiatan' ?>
                                 </h2>

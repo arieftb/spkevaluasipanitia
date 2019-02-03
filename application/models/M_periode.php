@@ -20,6 +20,11 @@
 
             return $this->db->get()->result_array();
         }
+
+        public function get_periode_by_id_kriteria()
+        {
+            # code...
+        }
     }
     
 ?>

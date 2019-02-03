@@ -43,6 +43,12 @@
                             <span>Panitia</span>
                         </a>
                     </li>
+                    <li class=" <?= $title == KRITERIA_TITLE ? 'active' : '' ?> ">
+                        <a href="<?= base_url(). 'kriteria' ?>">
+                            <i class="material-icons">toc</i>
+                            <span>Kriteria</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->
