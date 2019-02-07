@@ -323,14 +323,14 @@
         <?php } ?>
         <!-- Table Matrix Nilai Perbandingan -->
 
-         <!-- Table Matrix Normalisasi -->
-         <?php if ($data_matrix_normalisasi != null) { ?>
+        <!-- Table Matrix Normalisasi -->
+        <?php if ($data_matrix_normalisasi != null) { ?>
         <div class='row clearfix'>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Normalisasi & Nilai Eigen
+                            Normalisasi
                         </h2>
                     </div>
                     <div class="body">

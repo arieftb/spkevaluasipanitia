@@ -247,21 +247,20 @@ class Kriteria extends CI_Controller
     {
         $id_kriteria_pasangan = $this->input->post('id_kriteria_pasangan[]');
         $data_kriteria_pasangan;
-        for ($i=0; $i < sizeof($id_kriteria_pasangan); $i++) { 
-            $nilai_pasangan = $this->input->post('nilai_pasang'.$i);
+        for ($i = 0; $i < sizeof($id_kriteria_pasangan); $i++) {
+            $nilai_pasangan = $this->input->post('nilai_pasang' . $i);
             if ($nilai_pasangan > 1) {
-                $nilai_pasangan_1 = number_format(1.0/$nilai_pasangan,10);
+                $nilai_pasangan_1 = number_format(1.0 / $nilai_pasangan, 10);
                 $nilai_pasangan_2 = $nilai_pasangan;
-            } 
-            elseif ($nilai_pasangan < 1) {
+            } elseif ($nilai_pasangan < 1) {
                 $nilai_pasangan_1 = abs($nilai_pasangan);
-                $nilai_pasangan_2 = number_format(1.0/abs($nilai_pasangan),10);
+                $nilai_pasangan_2 = number_format(1.0 / abs($nilai_pasangan), 10);
             } else {
                 $nilai_pasangan_1 = 1;
                 $nilai_pasangan_2 = 1;
             }
 
-            $data = array(                
+            $data = array(
                 'nilai_pasangan_1' => $nilai_pasangan_1,
                 'nilai_pasangan_2' => $nilai_pasangan_2,
             );
@@ -270,7 +269,7 @@ class Kriteria extends CI_Controller
         }
 
         if ($this->M_kriteria->update_kriteria_pasangan($data_kriteria_pasangan, $id_kriteria_pasangan)) {
-            redirect(base_url('kriteria/process/'.$id_periode));
+            redirect(base_url('kriteria/process/' . $id_periode));
         } else {
             echo "<script>alert('Bandingkan Kriteria Gagal');
                 window.location.href='" . base_url('kriteria') . "';</script>";

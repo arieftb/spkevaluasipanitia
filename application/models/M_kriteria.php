@@ -56,13 +56,13 @@ class M_kriteria extends CI_Model
                 } else if ($i > 0 && $j > 0 && $i < sizeof($data_kriteria_detail) + 1) {
                     for ($k = 0; $k < sizeof($data_kriteria_pasangan); $k++) {
                         if ($data_kriteria_detail[$i - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_1'] && $data_kriteria_detail[$j - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_2']) {
-                            $data_compared_matrix[$i][$j] = (float)$data_kriteria_pasangan[$k]['nilai_pasangan_1'] ;
+                            $data_compared_matrix[$i][$j] = (float) $data_kriteria_pasangan[$k]['nilai_pasangan_1'];
                             break;
                         } else if ($data_kriteria_detail[$i - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_2'] && $data_kriteria_detail[$j - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_1']) {
-                            $data_compared_matrix[$i][$j] = (float)$data_kriteria_pasangan[$k]['nilai_pasangan_2'];
+                            $data_compared_matrix[$i][$j] = (float) $data_kriteria_pasangan[$k]['nilai_pasangan_2'];
                             break;
                         } else {
-                            $data_compared_matrix[$i][$j] = (float)1;
+                            $data_compared_matrix[$i][$j] = (float) 1;
                         }
                     }
                 } else {
@@ -70,7 +70,7 @@ class M_kriteria extends CI_Model
                         $data_compared_matrix[$i][$j] = 'Jumlah';
                     } else {
                         $sum_nilai = 0;
-                        for ($l=0; $l < sizeof($data_compared_matrix) - 1; $l++) { 
+                        for ($l = 0; $l < sizeof($data_compared_matrix) - 1; $l++) {
                             if ($l > 0) {
                                 $sum_nilai = $sum_nilai + $data_compared_matrix[$l][$j];
                             }
@@ -88,9 +88,9 @@ class M_kriteria extends CI_Model
     public function get_kriteria_normaliasi($data_compared_matrix)
     {
         $data_normalisasi_matrix = array();
-        for ($i=0; $i < sizeof($data_compared_matrix) - 1; $i++) { 
-            for ($j=0; $j <= sizeof($data_compared_matrix[$i]); $j++) { 
-                if ($j != sizeof($data_compared_matrix[$i])) {
+        for ($i = 0; $i < sizeof($data_compared_matrix) - 1; $i++) {
+            for ($j = 0; $j <= sizeof($data_compared_matrix[$i]) + 1; $j++) {
+                if ($j < sizeof($data_compared_matrix[$i])) {
                     if ($i == 0) {
                         $data_normalisasi_matrix[$i][$j] = $data_compared_matrix[$i][$j];
                     } else {
@@ -100,20 +100,36 @@ class M_kriteria extends CI_Model
                             $data_normalisasi_matrix[$i][$j] = $data_compared_matrix[$i][$j] / $data_compared_matrix[sizeof($data_compared_matrix) - 1][$j];
                         }
                     }
-                    
+
                 } else {
                     if ($i == 0) {
-                        $data_normalisasi_matrix[$i][$j] = 'Eigen';
-                    } else {
-                        $sum_eigen = 0;
-                        for ($l=1; $l < sizeof($data_normalisasi_matrix[$i]); $l++) { 
-                            $sum_eigen = $sum_eigen + $data_normalisasi_matrix[$i][$l];
+                        if ($j == sizeof($data_compared_matrix[$i])) {
+                            $data_normalisasi_matrix[$i][$j] = 'Bobot';
+                        } else {
+                            $data_normalisasi_matrix[$i][$j] = 'Prioritas';
                         }
+                    } else {
+                        if ($j == sizeof($data_compared_matrix[$i])) {
+                            $sum_eigen = 0;
+                            for ($l = 1; $l < sizeof($data_normalisasi_matrix[$i]); $l++) {
+                                $sum_eigen = $sum_eigen + $data_normalisasi_matrix[$i][$l];
+                            }
 
-                        $data_normalisasi_matrix[$i][$j] = $sum_eigen / (sizeof($data_compared_matrix[0]) - 1);
+                            $data_normalisasi_matrix[$i][$j] = $sum_eigen / (sizeof($data_compared_matrix[0]) - 1);
+                        }
                     }
                 }
             }
+        }
+
+        for ($i = 1; $i < sizeof($data_normalisasi_matrix); $i++) {
+            $sum_prioritas = 0;
+            for ($j = 1; $j < sizeof($data_compared_matrix[0]); $j++) {
+                if ($i != sizeof($data_normalisasi_matrix)) {
+                    $sum_prioritas = $sum_prioritas + ($data_compared_matrix[$i][$j] * $data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 2]);
+                }
+            }
+            $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1] = $sum_prioritas;
         }
 
         return $data_normalisasi_matrix;
