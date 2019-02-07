@@ -30,6 +30,7 @@ class Kriteria extends CI_Controller
             'data_matrix_perbandingan' => null,
             'data_matrix_normalisasi' => null,
             'data_kriteria_detail' => null,
+            'data_consistency_test' => null,
             'edit_kriteria' => null,
         );
 
@@ -57,6 +58,7 @@ class Kriteria extends CI_Controller
                 'data_pasangan' => null,
                 'data_matrix_perbandingan' => null,
                 'data_matrix_normalisasi' => null,
+                'data_consistency_test' => null,
                 'id_periode' => $id_periode,
                 'id_role' => $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] == 1 ? $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] : 2,
                 'edit_kriteria' => null,
@@ -111,6 +113,7 @@ class Kriteria extends CI_Controller
             'data_pasangan' => null,
             'data_matrix_perbandingan' => null,
             'data_matrix_normalisasi' => null,
+            'data_consistency_test' => null,
             'edit_kriteria' => $this->M_kriteria->get_kriteria_by_id($id_kriteria)[0],
         );
 
@@ -189,6 +192,7 @@ class Kriteria extends CI_Controller
         if (!empty($data_pasangan)) {
             $data_compared_matrix = $this->M_kriteria->get_kriteria_compared_matrix($data_pasangan, $this->M_kriteria->get_kriteria_detail($id_periode));
             $data_normalisasi_matrix = $this->M_kriteria->get_kriteria_normaliasi($data_compared_matrix);
+            $data_consistency_test = $this->M_kriteria->get_kriteria_status($data_normalisasi_matrix);
 
             $data = array(
                 'id_periode' => $id_periode,
@@ -198,13 +202,14 @@ class Kriteria extends CI_Controller
                 'data_kriteria_detail' => $this->M_kriteria->get_kriteria_detail($this->input->post('id_periode')),
                 'data_matrix_perbandingan' => $data_compared_matrix,
                 'data_matrix_normalisasi' => $data_normalisasi_matrix,
+                'data_consistency_test' => $data_consistency_test,
                 'data_pasangan' => $data_pasangan,
                 'edit_kriteria' => null,
             );
 
             $data = array_merge($data_site, $data_user, $data);
 
-            // print_r(json_encode($data_compared_matrix));
+            // print_r(json_encode($data_consistency_test));
             // print_r(json_encode($this->M_kriteria->get_kriteria_normaliasi($data_compared_matrix)));
             // print_r($this->M_kriteria->get_kriteria_normaliasi($data_compared_matrix));
 

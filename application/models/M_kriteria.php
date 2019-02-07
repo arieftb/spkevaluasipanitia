@@ -135,6 +135,49 @@ class M_kriteria extends CI_Model
         return $data_normalisasi_matrix;
     }
 
+    public function get_kriteria_status($data_normalisasi_matrix)
+    {
+
+        $total_kriteria = sizeof($data_normalisasi_matrix[0]) - 3;
+        $t = $this->get_t_kriteria($data_normalisasi_matrix);
+        $CI = $this->get_ci_kriteria($t, $total_kriteria);
+        $RI = $this->get_ri_kriteria($total_kriteria);
+        $nilai_konsistensi = $CI/$RI;
+        $is_consist = $nilai_konsistensi < 0.1 ? true : false;
+
+        $data_consistency = array(
+            array('t', $this->get_t_kriteria($data_normalisasi_matrix)),
+            array('CI',$CI),
+            array('RI'.$total_kriteria, $RI),
+            array('Nilai Konsistensi', $nilai_konsistensi),
+            array('Status', $is_consist ? 'Konsisten': 'Tidak Konsisten'),
+        );
+
+        return $data_consistency;
+    }
+
+    public function get_t_kriteria($data_normalisasi_matrix)
+    {
+        $sum_t = 0;
+        for ($j = 1; $j < sizeof($data_normalisasi_matrix); $j++) {
+            $sum_t = $sum_t + ($data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 1] / $data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 2]);
+        }
+
+        return $sum_t;
+    }
+
+    public function get_ci_kriteria($t, $total_kriteria)
+    {
+        return ($t - $total_kriteria) / $total_kriteria;
+    }
+
+    public function get_ri_kriteria($total_kriteria)
+    {
+        $data_ri = array(0,0,0,0.58,0.9,1.12,1.32,1.41,1.45,1.49);
+
+        return $data_ri[$total_kriteria];
+    }
+
     public function insert_kriteria($data_kriteria)
     {
         $this->db->insert(TB_KRITERIA, $data_kriteria);

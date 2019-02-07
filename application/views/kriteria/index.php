@@ -360,5 +360,35 @@
         </div>
         <?php } ?>
         <!-- Table Matrix Normalisasi -->
+
+        <!-- Table Consistency Test -->
+        <?php if ($data_consistency_test != null) { ?>
+        <div class='row clearfix'>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Uji Konsistensi Kriteria
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <tbody>
+                                <?php for ($i=0; $i < sizeof($data_consistency_test); $i++) { ?>
+                                    <tr>
+                                        <th><?= $data_consistency_test[$i][0] ?></th>
+                                        <td><?= $data_consistency_test[$i][1] ?></td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <!-- Table Matrix Normalisasi -->
     </div>
 </section>
