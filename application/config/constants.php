@@ -106,3 +106,4 @@ define('TB_PANITIA', 'panitia');
 define('TB_SIE', 'sie');
 define('TB_KRITERIA', 'kriteria');
 define('TB_KRITERIA_DETAIL', 'kriteria_detail');
+define('TB_KRITERIA_PASANGAN', 'kriteria_pasangan');
