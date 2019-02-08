@@ -135,7 +135,7 @@ class M_kriteria extends CI_Model
         return $data_normalisasi_matrix;
     }
 
-    public function get_kriteria_status($data_normalisasi_matrix)
+    public function get_kriteria_status($data_normalisasi_matrix, $id_periode)
     {
 
         $total_kriteria = sizeof($data_normalisasi_matrix[0]) - 3;
@@ -153,6 +153,10 @@ class M_kriteria extends CI_Model
             array('Status', $is_consist ? 'Konsisten': 'Tidak Konsisten'),
         );
 
+        if($is_consist) {
+            $this->update_kriteria_bobot($data_normalisasi_matrix, $id_periode);
+        }
+
         return $data_consistency;
     }
 
@@ -163,7 +167,9 @@ class M_kriteria extends CI_Model
             $sum_t = $sum_t + ($data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 1] / $data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 2]);
         }
 
-        return $sum_t;
+        $data_t = $sum_t / (sizeof($data_normalisasi_matrix[0]) - 3);
+
+        return $data_t;
     }
 
     public function get_ci_kriteria($t, $total_kriteria)
@@ -217,6 +223,29 @@ class M_kriteria extends CI_Model
         return $status;
     }
 
+    public function update_kriteria_bobot($data_normalisasi_matrix, $id_periode)
+    {
+        $data_kriteria_detail= $this->get_kriteria_detail($id_periode);
+
+        for ($i=1; $i < sizeof($data_normalisasi_matrix); $i++) { 
+            $update_kriteri_detail = array(
+                'bobot_kriteria' => $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 2],
+                'prioritas_kriteria' => $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1],
+            );
+
+            $id_kriteria_detail = $data_kriteria_detail[$i - 1]['id_kriteria_detail'];
+
+            $this->update_kriteria_detail($id_kriteria_detail, $update_kriteri_detail);
+        }
+    }
+
+    public function update_kriteria_detail($id_kriteria_detail, $data_kriteria_detail)
+    {
+        $this->db->set($data_kriteria_detail);
+        $this->db->where('id_kriteria_detail', $id_kriteria_detail);
+        $this->db->update(TB_KRITERIA_DETAIL);
+    }
+
     public function update_kriteria($id_kriteria, $data_kriteria)
     {
         $this->db->set($data_kriteria);
@@ -231,6 +260,13 @@ class M_kriteria extends CI_Model
         $this->db->where('id_periode', $id_periode);
 
         return $this->db->delete(TB_KRITERIA_DETAIL);
+    }
+
+    public function reset_kriteria_pasangan($id_periode)
+    {
+        $this->db->where('id_periode', $id_periode);
+
+        return $this->db->delete(TB_KRITERIA_PASANGAN);
     }
 
     public function update_kriteria_pasangan($data_kriteria_pasangan, $id_kriteria_pasangan)

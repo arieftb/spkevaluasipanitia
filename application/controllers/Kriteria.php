@@ -172,7 +172,7 @@ class Kriteria extends CI_Controller
 
     public function reset($id_periode)
     {
-        if ($this->M_kriteria->reset_kriteria_detail($id_periode)) {
+        if ($this->M_kriteria->reset_kriteria_detail($id_periode) && $this->M_kriteria->reset_kriteria_pasangan($id_periode)) {
             echo "<script>alert('Reset Kriteria Berhasil');
             window.location.href='" . base_url('kriteria') . "';</script>";
         } else {
@@ -192,7 +192,7 @@ class Kriteria extends CI_Controller
         if (!empty($data_pasangan)) {
             $data_compared_matrix = $this->M_kriteria->get_kriteria_compared_matrix($data_pasangan, $this->M_kriteria->get_kriteria_detail($id_periode));
             $data_normalisasi_matrix = $this->M_kriteria->get_kriteria_normaliasi($data_compared_matrix);
-            $data_consistency_test = $this->M_kriteria->get_kriteria_status($data_normalisasi_matrix);
+            $data_consistency_test = $this->M_kriteria->get_kriteria_status($data_normalisasi_matrix, $id_periode);
 
             $data = array(
                 'id_periode' => $id_periode,
@@ -274,7 +274,8 @@ class Kriteria extends CI_Controller
         }
 
         if ($this->M_kriteria->update_kriteria_pasangan($data_kriteria_pasangan, $id_kriteria_pasangan)) {
-            redirect(base_url('kriteria/process/' . $id_periode));
+            echo "<script>alert('Bandingkan Kriteria Berhasil');
+                window.location.href='" . base_url('kriteria') . "';</script>";
         } else {
             echo "<script>alert('Bandingkan Kriteria Gagal');
                 window.location.href='" . base_url('kriteria') . "';</script>";

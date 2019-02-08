@@ -272,9 +272,11 @@
                                         <?php } ?>
                                     </tbody>
                                 </table>
-                                <?php if (empty($data_pasangan)) { ?>
+                                <?php if (!empty($data_pasangan)) { ?>
+                                <?php if ($data_pasangan[0]['nilai_pasangan_1'] == 0 || $data_pasangan[0]['nilai_pasangan_2'] == 0 ) { ?>
                                 <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Bandingkan"
                                     name="Compare" />
+                                <?php } ?>
                                 <?php } ?>
                             </form>
                         </div>
@@ -286,7 +288,7 @@
         <!-- Form Input Nilai Perbandingan -->
 
         <!-- Table Matrix Nilai Perbandingan -->
-        <?php if ($data_matrix_perbandingan != null) { ?>
+        <?php if ($data_matrix_perbandingan != null && !empty($data_pasangan)) { ?>
         <div class='row clearfix'>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -324,7 +326,7 @@
         <!-- Table Matrix Nilai Perbandingan -->
 
         <!-- Table Matrix Normalisasi -->
-        <?php if ($data_matrix_normalisasi != null) { ?>
+        <?php if ($data_matrix_normalisasi != null && !empty($data_pasangan)) { ?>
         <div class='row clearfix'>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -362,7 +364,7 @@
         <!-- Table Matrix Normalisasi -->
 
         <!-- Table Consistency Test -->
-        <?php if ($data_consistency_test != null) { ?>
+        <?php if ($data_consistency_test != null && !empty($data_pasangan)) { ?>
         <div class='row clearfix'>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -375,12 +377,12 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-hover">
                                 <tbody>
-                                <?php for ($i=0; $i < sizeof($data_consistency_test); $i++) { ?>
+                                    <?php for ($i=0; $i < sizeof($data_consistency_test); $i++) { ?>
                                     <tr>
                                         <th><?= $data_consistency_test[$i][0] ?></th>
                                         <td><?= $data_consistency_test[$i][1] ?></td>
                                     </tr>
-                                <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
