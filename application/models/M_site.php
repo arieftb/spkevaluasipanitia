@@ -45,5 +45,14 @@
 
             return $data;
         }
+
+        public function get_penilaian_site()
+        {
+            $data = array(
+                'title' => PENILAIAN_TITLE        
+            );
+
+            return $data;
+        }
     }
 ?>

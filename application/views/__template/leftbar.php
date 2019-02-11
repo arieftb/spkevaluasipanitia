@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li class=" <?= $title == PENILAIAN_TITLE ? 'active' : '' ?> ">
-                        <a href="<?= base_url(). 'kriteria' ?>">
+                        <a href="<?= base_url(). 'penilaian' ?>">
                             <i class="material-icons">done</i>
                             <span>Penilaian</span>
                         </a>
