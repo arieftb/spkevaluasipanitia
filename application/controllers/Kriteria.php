@@ -8,6 +8,7 @@ class Kriteria extends CI_Controller
         $this->load->model('M_user');
         $this->load->model('M_periode');
         $this->load->model('M_kriteria');
+        $this->load->model('M_panitia');
 
         if (!$this->M_user->get_login_status()) {
             redirect(base_url('login'));
@@ -50,29 +51,32 @@ class Kriteria extends CI_Controller
 
         $id_periode = trim($this->input->post('id_periode'));
 
+        $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? 2 : 5);
+        $data_kriteria_detail = $id_role == 1 ? $this->M_kriteria->get_kriteria_detail($id_periode) : ($id_role == 2 ? $this->M_kriteria->get_kriteria_detail_by_priority($id_periode) : null);
+
         if ($id_periode != '') {
             $data = array(
                 'data_kriteria' => $this->M_kriteria->get_kriteria(),
                 'data_periode' => $this->M_periode->get_periode_by_id_member($data_user['id_member']),
-                'data_kriteria_detail' => $this->M_kriteria->get_kriteria_detail($id_periode),
+                'data_kriteria_detail' => $data_kriteria_detail,
                 'data_pasangan' => null,
                 'data_matrix_perbandingan' => null,
                 'data_matrix_normalisasi' => null,
                 'data_consistency_test' => null,
                 'id_periode' => $id_periode,
-                'id_role' => $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] == 1 ? $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] : 2,
+                'id_role' => $id_role,
                 'edit_kriteria' => null,
             );
+            // 'id_role' => $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] == 1 ? $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'] : 2,
 
             $data = array_merge($data_site, $data_user, $data);
-
             $this->load->view('__template/header', $data);
             $this->load->view('__template/topbar');
             $this->load->view('__template/leftbar');
             $this->load->view('kriteria/index');
             $this->load->view('__template/footer');
 
-            // print_r(json_encode($data));
+            // print_r(json_encode($data_kriteria_detail));
         } else {
             redirect(base_url('kriteria'));
         }

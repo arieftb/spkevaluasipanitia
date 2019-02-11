@@ -18,6 +18,18 @@ class M_kriteria extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function get_kriteria_detail_by_priority($id_periode)
+    {
+        $this->db->select();
+        $this->db->from(TB_KRITERIA_DETAIL);
+        $this->db->join(TB_KRITERIA, TB_KRITERIA . '.id_kriteria=' . TB_KRITERIA_DETAIL . '.id_kriteria');
+        $this->db->join(TB_PERIODE, TB_PERIODE . '.id_periode=' . TB_KRITERIA_DETAIL . '.id_periode');
+        $this->db->where(TB_KRITERIA_DETAIL . '.id_periode', $id_periode);
+        $this->db->order_by(TB_KRITERIA_DETAIL.'.prioritas_kriteria', "desc");
+
+        return $this->db->get()->result_array();
+    }
+
     public function get_kriteria_by_id($id_kriteria)
     {
         $this->db->select();

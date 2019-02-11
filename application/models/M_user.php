@@ -29,19 +29,19 @@
 
         public function get_login_role_by_deptdivisi($id_deptdivisi)
         {
+
             if(sizeof($id_deptdivisi) == 2) {
                 if ($id_deptdivisi[0]['id_role'] == 1 && $id_deptdivisi[1]['id_role'] == 1) {
                     $user_role = 1;
+                    return 1;
                 } else if ($id_deptdivisi[0]['id_role'] != 1 && $id_deptdivisi[1]['id_role'] != 1) {
-                    $user_data = 2;
+                    return 2;
                 } else {
-                    $user_role = 3;
+                    return 3;
                 }
             } else {
-                $user_role = $id_deptdivisi[0]['id_role'];
+                return $id_deptdivisi[0]['id_role'];
             }
-
-            return $user_role;
         }
 
         public function get_user_role_by_id_periode($id_periode)
@@ -88,6 +88,28 @@
             // print_r($user_role);
 
             if ($user_role[0]['id_role'] == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function is_superadmin_by_periode($id_periode)
+        {
+            $this->db->select(TB_ROLE.'.id_role');
+            $this->db->from(TB_ROLE);
+            $this->db->join(TB_DEPTDIVISI, TB_DEPTDIVISI.'.id_role='.TB_ROLE.'.id_role');
+            $this->db->join(TB_PENGURUS, TB_PENGURUS.'.id_deptdivisi='.TB_DEPTDIVISI.'.id_deptdivisi');
+            $this->db->join(TB_PERIODE, TB_PERIODE.'.id_periode='.TB_PENGURUS.'.id_periode');
+            $this->db->join(TB_KEGIATAN, TB_KEGIATAN.'.id_periode='.TB_PERIODE.'.id_periode');
+            $this->db->join(TB_MEMBER, TB_MEMBER.'.id_member='.TB_PENGURUS.'.id_member');
+            $this->db->where(TB_PENGURUS.'.id_periode', $id_periode);
+            $this->db->where(TB_MEMBER.'.id_member', $this->session->userdata('id_member'));
+            $this->db->where(TB_PENGURUS.'.jabatan_pengurus', '0');
+            $this->db->where(TB_DEPTDIVISI.'.id_role', 1);
+
+            $user_role = $this->db->get()->result_array();
+            if (sizeof($user_role) > 0) {
                 return true;
             } else {
                 return false;

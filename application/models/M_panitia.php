@@ -32,6 +32,24 @@
             return ($this->db->affected_rows() != 1) ? false : true;
         }
 
+        public function is_user_panitia($id_member, $id_periode)
+        {
+            $this->db->select();
+            $this->db->from(TB_PANITIA);
+            $this->db->join(TB_KEGIATAN, TB_KEGIATAN.'.id_kegiatan='.TB_PANITIA.'.id_kegiatan');
+            $this->db->where(TB_KEGIATAN.'.id_periode', $id_periode);
+            $this->db->where(TB_PANITIA.'.id_member', $id_member);
+            $this->db->where(TB_PANITIA.'.jabatan_panitia', '0');
+
+            $is_panitia = $this->db->get()->result_array();
+
+            if(sizeof($is_panitia) > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public function update_panitia($id_panitia, $data)
         {
             $this->db->set($data);

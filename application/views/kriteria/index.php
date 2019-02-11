@@ -392,5 +392,44 @@
         </div>
         <?php } ?>
         <!-- Table Matrix Normalisasi -->
+
+        <!-- Table Form Kriteria Yang Digunakan Pada Periode Tersebut-->
+        <?php if ($id_role == 2 && $data_kriteria_detail != null) { ?>
+        <div class='row clearfix'>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Kriteria Pada Periode Ini
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No. </th>
+                                        <th>Nama. </th>
+                                        <th>Bobot. </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php $i = 1;?>
+                                <?php foreach ($data_kriteria_detail as $KRITERIA_DETAIL) {?>
+                                    <tr>
+                                        <td><?= $i ?></td>
+                                        <td><?= $KRITERIA_DETAIL['nama_kriteria'] ?></td>
+                                        <td><?= $KRITERIA_DETAIL['bobot_kriteria'] ?></td>
+                                    </tr>
+                                <?php $i++; } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <!-- Table Form Kriteria Yang Digunakan Pada Periode Tersebut-->
     </div>
 </section>
