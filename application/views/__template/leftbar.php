@@ -49,6 +49,12 @@
                             <span>Kriteria</span>
                         </a>
                     </li>
+                    <li class=" <?= $title == PENILAIAN_TITLE ? 'active' : '' ?> ">
+                        <a href="<?= base_url(). 'kriteria' ?>">
+                            <i class="material-icons">done</i>
+                            <span>Penilaian</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->

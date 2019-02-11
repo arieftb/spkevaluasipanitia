@@ -94,6 +94,7 @@ define('HOME_TITLE', 'Home');
 define('KEGIATAN_TITLE', 'Kegiatan');
 define('PANITIA_TITLE', 'Panitia');
 define('KRITERIA_TITLE', 'Kriteria');
+define('PENILAIAN_TITLE', 'Penilaian');
 
 // TABLE NAME
 define('TB_MEMBER', 'member');
