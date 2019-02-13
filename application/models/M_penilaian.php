@@ -4,11 +4,15 @@
 
         public function get_nilai_by_kegiatan($id_kegiatan)
         {
+            $this->load->model('M_sie', 'M_sie');
+            $id_sie = $this->M_sie->get_sie_by_kegiatan_and_member($id_kegiatan)[0]['id_sie'];
+
             $this->db->from(TB_PENILAIAN);
             $this->db->join(TB_PANITIA, TB_PANITIA.'.id_panitia='.TB_PENILAIAN.'.id_panitia');
             $this->db->join(TB_MEMBER, TB_MEMBER.'.id_member='.TB_PANITIA.'.id_member');
             $this->db->join(TB_KRITERIA, TB_KRITERIA.'.id_kriteria='.TB_PENILAIAN.'.id_kriteria');
             $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->where(TB_PANITIA.'.id_sie', $id_sie);
 
             return $this->db->get()->result_array();
         }

@@ -137,6 +137,7 @@ class Penilaian extends CI_Controller
         $id_panitia = $this->input->post('id_panitia[]');
         $id_kriteria = $this->input->post('id_kriteria[]');
         $id_periode = $this->input->post('id_periode');
+        $id_kegiatan = $this->input->post('id_kegiatan');
 
         if (sizeof($nilai_kriteria) == (sizeof($id_kriteria) * sizeof($id_panitia))) {
             $data_penilaian = array(
@@ -168,6 +169,7 @@ class Penilaian extends CI_Controller
         $id_panitia = $this->input->post('id_panitia[]');
         $id_kriteria = $this->input->post('id_kriteria[]');
         $id_periode = $this->input->post('id_periode');
+        $id_kegiatan = $this->input->post('id_kegiatan');
 
         if (sizeof($nilai_kriteria) == (sizeof($id_kriteria) * sizeof($id_panitia))) {
             $data_penilaian = array(

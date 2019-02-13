@@ -93,6 +93,8 @@
                         <form method="POST" action="<?=base_url() . 'penilaian/nilai'?>">
                             <input type='hidden' name='id_periode' value='<?= $id_periode ?>' id="id_panitia"
                                 class="form-control" required></input>
+                            <input type='hidden' name='id_kegiatan' value='<?= $id_kegiatan ?>' id="id_kegiatan"
+                                class="form-control" required></input>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover">
                                     <thead>
@@ -146,7 +148,7 @@
         <!-- Form Penilaian Panitia Perkriteria -->
 
         <!-- Table Penilaian Panitia Per Kriteria -->
-        <?php if ($id_role != null && $data_panitia != null && $data_kriteria != null && $data_nilai != null) { ?>
+        <?php if ($id_role != null && $data_panitia != null && $data_kriteria != null && $data_nilai != null && !empty($data_nilai)) { ?>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -162,6 +164,8 @@
                         <!-- <div class="row clearfix"> -->
                         <form method="POST" action="<?=base_url() . 'penilaian/update'?>">
                             <input type='hidden' name='id_periode' value='<?= $id_periode ?>' id="id_panitia"
+                                class="form-control" required></input>
+                            <input type='hidden' name='id_kegiatan' value='<?= $id_kegiatan ?>' id="id_kegiatan"
                                 class="form-control" required></input>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover">
