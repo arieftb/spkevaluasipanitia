@@ -51,6 +51,7 @@
             $this->db->join(TB_DEPTDIVISI, TB_DEPTDIVISI.'.id_deptdivisi='.TB_PENGURUS.'.id_deptdivisi');
             $this->db->join(TB_ROLE, TB_ROLE.'.id_role='.TB_DEPTDIVISI.'.id_role');
             $this->db->where(TB_PENGURUS.'.id_periode', $id_periode);
+            $this->db->where(TB_PENGURUS.'.id_member', $this->session->userdata('id_member'));
 
             return $this->db->get()->result_array();
         }

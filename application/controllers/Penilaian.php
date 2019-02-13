@@ -12,6 +12,8 @@ class Penilaian extends CI_Controller
         $this->load->model('M_member');
         $this->load->model('M_pengurus');
         $this->load->model('M_sie');
+        $this->load->model('M_kriteria');
+        $this->load->model('M_penilaian');
 
         if (!$this->M_user->get_login_status()) {
             redirect(base_url('login'));
@@ -22,8 +24,19 @@ class Penilaian extends CI_Controller
     {
         $data_site = $this->M_site->get_penilaian_site();
         $data_user = $this->session->userdata();
+        $data_periode = $this->M_periode->get_periode_by_id_member($data_user['id_member']);
 
-        $data = array();
+        $data = array(
+            'id_periode' => null,
+            'id_role' => null,
+            'id_kegiatan' => null,
+            'data_kegiatan' => null,
+            'data_periode' => $data_periode,
+            'data_panitia' => null,
+            'data_kriteria' => null,
+            'data_nilai' => null,
+        );
+
         $data = array_merge($data_site, $data_user, $data);
 
         $this->load->view('__template/header', $data);
@@ -31,5 +44,121 @@ class Penilaian extends CI_Controller
         $this->load->view('__template/leftbar');
         $this->load->view('penilaian/index');
         $this->load->view('__template/footer');
+    }
+
+    public function periode()
+    {
+        $data_site = $this->M_site->get_penilaian_site();
+        $data_user = $this->session->userdata();
+        $data_periode = $this->M_periode->get_periode_by_id_member($data_user['id_member']);
+
+        $id_periode = trim($this->input->post('id_periode'));
+
+        if ($id_periode != null && !empty($id_periode) && $id_periode != '') {
+            $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : 2;
+            $data_kegiatan = $this->M_kegiatan->get_kegiatan($id_periode);
+
+            $data = array(
+                'id_periode' => $id_periode,
+                'id_role' => null,
+                'id_kegiatan' => null,
+                'data_kegiatan' => $data_kegiatan,
+                'data_periode' => $data_periode,
+                'data_panitia' => null,
+                'data_kriteria' => null,
+                'data_nilai' => null,
+            );
+
+            $data = array_merge($data_site, $data_user, $data);
+
+            // print_r(json_encode($data));
+
+            $this->load->view('__template/header', $data);
+            $this->load->view('__template/topbar');
+            $this->load->view('__template/leftbar');
+            $this->load->view('penilaian/index');
+            $this->load->view('__template/footer');
+        } else {
+            echo "<script>alert('Belum Memilih Periode');
+            window.location.href='" . base_url('Penilaian') . "';</script>";
+        }
+
+    }
+
+    public function kegiatan()
+    {
+        $data_site = $this->M_site->get_penilaian_site();
+        $data_user = $this->session->userdata();
+        $data_periode = $this->M_periode->get_periode_by_id_member($data_user['id_member']);
+
+        $id_kegiatan = trim($this->input->post('id_kegiatan'));
+
+        if ($id_kegiatan != null && !empty($id_kegiatan) && $id_kegiatan != '') {
+            $id_periode = $this->M_periode->get_periode_by_id_kegiatan($id_kegiatan)[0]['id_periode'];
+            $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_user_koor_panitia($id_kegiatan) ? 4 : 5));
+
+            $data_panitia = $this->M_panitia->get_member_panitia_by_sie($id_kegiatan);
+            $data_kegiatan = $this->M_kegiatan->get_kegiatan($id_periode);
+            $data_kriteria = $this->M_kriteria->get_kriteria_detail($id_periode);
+            $data_nilai = $this->M_penilaian->get_nilai_by_kegiatan($id_kegiatan);
+
+            // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
+
+            $data = array(
+                'id_periode' => $id_periode,
+                'id_role' => $id_role,
+                'id_kegiatan' => $id_kegiatan,
+                'data_kegiatan' => $data_kegiatan,
+                'data_periode' => $data_periode,
+                'data_panitia' => $data_panitia,
+                'data_kriteria' => $data_kriteria,
+                'data_nilai' => $data_nilai,
+            );
+
+            $data = array_merge($data_site, $data_user, $data);
+
+            // print_r(json_encode($data));
+
+            $this->load->view('__template/header', $data);
+            $this->load->view('__template/topbar');
+            $this->load->view('__template/leftbar');
+            $this->load->view('penilaian/index');
+            $this->load->view('__template/footer');
+        } else {
+            echo "<script>alert('Belum Memilih Kegiatan');
+            window.location.href='" . base_url('Penilaian') . "';</script>";
+        }
+
+    }
+
+    public function nilai()
+    {
+        $nilai_kriteria = $this->input->post('nilai_kriteria[]');
+        $id_panitia = $this->input->post('id_panitia[]');
+        $id_kriteria = $this->input->post('id_kriteria[]');
+        $id_periode = $this->input->post('id_periode');
+
+        if (sizeof($nilai_kriteria) == (sizeof($id_kriteria) * sizeof($id_panitia))) {
+            $data_penilaian = array(
+                'id_kriteria' => $id_kriteria,
+                'id_panitia' => $id_panitia,
+                'nilai_kriteria' => $nilai_kriteria,
+            );
+
+            $data_nilai = $this->M_penilaian->manipulate_nilai_from_form($data_penilaian);
+
+            if ($this->M_penilaian->insert_nilai($data_nilai)) {
+                echo "<script>alert('Masukkan Nilai Berhasil');
+                window.location.href='" . base_url('Penilaian') . "';</script>";
+            } else {
+                echo "<script>alert('Masukkan Nilai Gagal');
+                window.location.href='" . base_url('Penilaian') . "';</script>";
+            }
+
+            // print_r(json_encode($data_nilai));
+        } else {
+            echo "<script>alert('Belum Memasukan Semua Nilai');
+            window.location.href='" . base_url('Penilaian') . "';</script>";
+        }
     }
 }

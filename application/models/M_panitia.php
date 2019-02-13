@@ -14,6 +14,20 @@
             return $this->db->get()->result_array();
         }
 
+        public function get_member_panitia_by_sie($id_kegiatan)
+        {
+            $this->load->model('M_sie', 'M_sie');
+            $id_sie = $this->M_sie->get_sie_by_kegiatan_and_member($id_kegiatan)[0]['id_sie'];
+
+            $this->db->from(TB_PANITIA);
+            $this->db->join(TB_MEMBER, TB_MEMBER.'.id_member='.TB_PANITIA.'.id_member');
+            $this->db->where(TB_PANITIA.'.id_sie', $id_sie);
+            $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->where(TB_PANITIA.'.jabatan_panitia', '1');
+
+            return $this->db->get()->result_array();
+        }
+
         public function get_panitia_by_id($id_panitia)
         {
             $this->db->select();
@@ -48,6 +62,31 @@
             } else {
                 return false;
             }
+        }
+
+        public function is_user_ketua_panitia($id_kegiatan)
+        {
+            $this->db->from(TB_PANITIA);
+            $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->where(TB_PANITIA.'.id_member', $this->session->userdata('id_member'));
+            $this->db->where(TB_PANITIA.'.id_sie', 1);
+            
+            $is_ketua_panitia = $this->db->get()->result_array();
+
+            return sizeof($is_ketua_panitia) > 0 ? true : false; 
+        }
+
+        public function is_user_koor_panitia($id_kegiatan)
+        {
+            $this->db->from(TB_PANITIA);
+            $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->where(TB_PANITIA.'.id_member', $this->session->userdata('id_member'));
+            $this->db->where(TB_PANITIA.'.jabatan_panitia', '0');
+            $this->db->where(TB_PANITIA.'.id_sie != ', 1);
+            
+            $is_koor_panitia = $this->db->get()->result_array();
+
+            return sizeof($is_koor_panitia) > 0 ? true : false; 
         }
 
         public function update_panitia($id_panitia, $data)

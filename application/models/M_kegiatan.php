@@ -11,6 +11,9 @@
         {
             $this->load->model('M_user', 'M_user');
             $user_role = $this->M_user->get_user_role_by_id_periode($id_periode)[0]['id_role'];
+
+            // print_r($user_role);
+
             if ($user_role == 1) {
                 $data = $this->get_kegiatan_by_superadmin($id_periode);
             } else {            
