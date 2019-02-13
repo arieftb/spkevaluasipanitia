@@ -161,4 +161,35 @@ class Penilaian extends CI_Controller
             window.location.href='" . base_url('Penilaian') . "';</script>";
         }
     }
+
+    public function update()
+    {
+        $nilai_kriteria = $this->input->post('nilai_kriteria[]');
+        $id_panitia = $this->input->post('id_panitia[]');
+        $id_kriteria = $this->input->post('id_kriteria[]');
+        $id_periode = $this->input->post('id_periode');
+
+        if (sizeof($nilai_kriteria) == (sizeof($id_kriteria) * sizeof($id_panitia))) {
+            $data_penilaian = array(
+                'id_kriteria' => $id_kriteria,
+                'id_panitia' => $id_panitia,
+                'nilai_kriteria' => $nilai_kriteria,
+            );
+
+            $data_nilai = $this->M_penilaian->manipulate_nilai_from_form($data_penilaian);
+
+            if ($this->M_penilaian->update_nilai($data_nilai)) {
+                echo "<script>alert('Perbaharui Nilai Berhasil');
+                window.location.href='" . base_url('Penilaian') . "';</script>";
+            } else {
+                echo "<script>alert('Perbaharui Nilai Gagal');
+                window.location.href='" . base_url('Penilaian') . "';</script>";
+            }
+
+            print_r(json_encode($data_nilai));
+        } else {
+            echo "<script>alert('Belum Memasukan Semua Nilai');
+            window.location.href='" . base_url('Penilaian') . "';</script>";
+        }
+    }
 }
