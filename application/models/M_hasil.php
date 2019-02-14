@@ -28,6 +28,18 @@
                 $this->db->insert(TB_HASIL, $data_hasil_input[$i]);
             }
         }
+
+        public function delete_hasil_by_kegiatan($id_kegiatan)
+        {
+            // $this->db->join(TB_PANITIA, TB_PANITIA.'.id_panitia='.TB_HASIL.'.id_panitia');
+            // $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            // $this->db->delete(TB_HASIL);
+            $sql = 'DELETE '.TB_HASIL.'.* FROM '.TB_HASIL.' JOIN '.TB_PANITIA.' ON '.TB_PANITIA.'.id_panitia='.TB_HASIL.'.id_panitia WHERE '.TB_PANITIA.'.id_kegiatan = ?';
+
+            $this->db->query($sql, array($id_kegiatan));
+
+            return $this->db->affected_rows() > 0;
+        }
     }
     
 ?>

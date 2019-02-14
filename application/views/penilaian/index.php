@@ -345,7 +345,8 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Hasil Penilaian
+                            Hasil Penilaian  &nbsp; &nbsp; &nbsp; <a href="<?= base_url().'penilaian/reset/'.$id_kegiatan ?>"
+                            class="btn btn-danger waves-effect">Reset</a>
                         </h2>
                     </div>
                     <div class="body">

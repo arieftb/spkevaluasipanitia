@@ -89,7 +89,7 @@ class Penilaian extends CI_Controller
             $this->load->view('__template/footer');
         } else {
             echo "<script>alert('Belum Memilih Periode');
-            window.location.href='" . base_url('Penilaian') . "';</script>";
+            window.location.href='" . base_url('penilaian') . "';</script>";
         }
 
     }
@@ -139,7 +139,7 @@ class Penilaian extends CI_Controller
             $this->load->view('__template/footer');
         } else {
             echo "<script>alert('Belum Memilih Kegiatan');
-            window.location.href='" . base_url('Penilaian') . "';</script>";
+            window.location.href='" . base_url('penilaian') . "';</script>";
         }
 
     }
@@ -201,7 +201,7 @@ class Penilaian extends CI_Controller
             $this->load->view('__template/footer');
         } else {
             echo "<script>alert('Belum Memilih Kegiatan');
-            window.location.href='" . base_url('Penilaian') . "';</script>";
+            window.location.href='" . base_url('penilaian') . "';</script>";
         }
     }
 
@@ -224,16 +224,16 @@ class Penilaian extends CI_Controller
 
             if ($this->M_penilaian->insert_nilai($data_nilai)) {
                 echo "<script>alert('Masukkan Nilai Berhasil');
-                window.location.href='" . base_url('Penilaian') . "';</script>";
+                window.location.href='" . base_url('penilaian') . "';</script>";
             } else {
                 echo "<script>alert('Masukkan Nilai Gagal');
-                window.location.href='" . base_url('Penilaian') . "';</script>";
+                window.location.href='" . base_url('penilaian') . "';</script>";
             }
 
             // print_r(json_encode($data_nilai));
         } else {
             echo "<script>alert('Belum Memasukan Semua Nilai');
-            window.location.href='" . base_url('Penilaian') . "';</script>";
+            window.location.href='" . base_url('penilaian') . "';</script>";
         }
     }
 
@@ -256,16 +256,27 @@ class Penilaian extends CI_Controller
 
             if ($this->M_penilaian->update_nilai($data_nilai)) {
                 echo "<script>alert('Perbaharui Nilai Berhasil');
-                window.location.href='" . base_url('Penilaian') . "';</script>";
+                window.location.href='" . base_url('penilaian') . "';</script>";
             } else {
                 echo "<script>alert('Perbaharui Nilai Gagal');
-                window.location.href='" . base_url('Penilaian') . "';</script>";
+                window.location.href='" . base_url('penilaian') . "';</script>";
             }
 
             print_r(json_encode($data_nilai));
         } else {
             echo "<script>alert('Belum Memasukan Semua Nilai');
-            window.location.href='" . base_url('Penilaian') . "';</script>";
+            window.location.href='" . base_url('penilaian') . "';</script>";
+        }
+    }
+
+    public function reset($id_kegiatan)
+    {
+        if ($this->M_hasil->delete_hasil_by_kegiatan($id_kegiatan) > 0) {
+            echo "<script>alert('Reset Penilaian Berhasil');
+            window.location.href='" . base_url('penilaian') . "';</script>";
+        } else {
+            echo "<script>alert('Reset Penilaian Gagal');
+            window.location.href='" . base_url('penilaian') . "';</script>";
         }
     }
 }
