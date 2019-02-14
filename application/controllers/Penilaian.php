@@ -35,6 +35,8 @@ class Penilaian extends CI_Controller
             'data_panitia' => null,
             'data_kriteria' => null,
             'data_nilai' => null,
+            'data_nilai_table' => null,
+            'data_nilai_perkriteria' => null,
         );
 
         $data = array_merge($data_site, $data_user, $data);
@@ -67,6 +69,8 @@ class Penilaian extends CI_Controller
                 'data_panitia' => null,
                 'data_kriteria' => null,
                 'data_nilai' => null,
+                'data_nilai_table' => null,
+                'data_nilai_perkriteria' => null,
             );
 
             $data = array_merge($data_site, $data_user, $data);
@@ -101,7 +105,7 @@ class Penilaian extends CI_Controller
             $data_kegiatan = $this->M_kegiatan->get_kegiatan($id_periode);
             $data_kriteria = $this->M_kriteria->get_kriteria_detail($id_periode);
             $data_nilai = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_nilai_by_kegiatan($id_kegiatan) : $this->M_penilaian->get_nilai_by_sie($id_kegiatan);
-            $data_nilai_table = $id_role == 1 || $id_role == 3 ?  $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
+            $data_nilai_table = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
             // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
 
             $data = array(
@@ -114,6 +118,7 @@ class Penilaian extends CI_Controller
                 'data_kriteria' => $data_kriteria,
                 'data_nilai' => $data_nilai,
                 'data_nilai_table' => $data_nilai_table,
+                'data_nilai_perkriteria' => null,
             );
 
             $data = array_merge($data_site, $data_user, $data);
@@ -130,6 +135,57 @@ class Penilaian extends CI_Controller
             window.location.href='" . base_url('Penilaian') . "';</script>";
         }
 
+    }
+
+    public function process()
+    {
+        $data_site = $this->M_site->get_penilaian_site();
+        $data_user = $this->session->userdata();
+        $data_periode = $this->M_periode->get_periode_by_id_member($data_user['id_member']);
+
+        $id_kegiatan = trim($this->input->post('id_kegiatan'));
+        if ($id_kegiatan != null && !empty($id_kegiatan) && $id_kegiatan != '') {
+            $id_periode = $this->M_periode->get_periode_by_id_kegiatan($id_kegiatan)[0]['id_periode'];
+            $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_user_koor_panitia($id_kegiatan) ? 4 : 5));
+
+            $data_panitia = $id_role == 1 || $id_role == 3 ? $this->M_panitia->get_member_panitia_by_kegiatan($id_kegiatan) : $this->M_panitia->get_member_panitia_by_sie($id_kegiatan);
+            $data_kegiatan = $this->M_kegiatan->get_kegiatan($id_periode);
+            $data_kriteria = $this->M_kriteria->get_kriteria_detail($id_periode);
+            $data_nilai = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_nilai_by_kegiatan($id_kegiatan) : $this->M_penilaian->get_nilai_by_sie($id_kegiatan);
+            $data_nilai_table = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
+            $data_nilai_perkriteria = $id_role == 3 ? $this->M_penilaian->get_data_nilai_perkriteria($data_nilai_table, $data_kriteria) : "";
+            $data_nilai_normalisasi = $id_role == 3 ? $this->M_penilaian->get_data_nilai_normalisasi($data_nilai_perkriteria) : "";
+
+            // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
+
+            $data = array(
+                'id_periode' => $id_periode,
+                'id_role' => $id_role,
+                'id_kegiatan' => $id_kegiatan,
+                'data_kegiatan' => $data_kegiatan,
+                'data_periode' => $data_periode,
+                'data_panitia' => $data_panitia,
+                'data_kriteria' => $data_kriteria,
+                'data_nilai' => $data_nilai,
+                'data_nilai_table' => $data_nilai_table,
+                'data_nilai_perkriteria' => $data_nilai_perkriteria,
+                'data_nilai_normalisasi' => $data_nilai_normalisasi,
+            );
+
+            $data = array_merge($data_site, $data_user, $data);
+
+            // print_r(json_encode($data_nilai_normalisasi));
+            // print_r($data_nilai_perkriteria);
+
+            $this->load->view('__template/header', $data);
+            $this->load->view('__template/topbar');
+            $this->load->view('__template/leftbar');
+            $this->load->view('penilaian/index');
+            $this->load->view('__template/footer');
+        } else {
+            echo "<script>alert('Belum Memilih Kegiatan');
+            window.location.href='" . base_url('Penilaian') . "';</script>";
+        }
     }
 
     public function nilai()
