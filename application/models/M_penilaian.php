@@ -107,17 +107,17 @@ class M_penilaian extends CI_Model
         $data_nilai_pasangan = array();
         $data_nilai_normalisasi = array();
 
-        for ($i=0; $i < sizeof($data_nilai_perkriteria); $i++) { 
-            for ($j=0; $j < sizeof($data_nilai_perkriteria[$i]) - 1; $j++) { 
-                for ($k=0; $k <= sizeof($data_nilai_perkriteria[$i][$j]); $k++) { 
+        for ($i = 0; $i < sizeof($data_nilai_perkriteria); $i++) {
+            for ($j = 0; $j < sizeof($data_nilai_perkriteria[$i]) - 1; $j++) {
+                for ($k = 0; $k <= sizeof($data_nilai_perkriteria[$i][$j]); $k++) {
                     if ($k < sizeof($data_nilai_perkriteria[$i][$j])) {
                         if ($j == 0) {
                             $data_nilai_pasangan[$j][$k] = $data_nilai_perkriteria[$i][$j][$k];
-                        } else if($k == 0) {
+                        } else if ($k == 0) {
                             $data_nilai_pasangan[$j][$k] = $data_nilai_perkriteria[$i][$j][$k];
                         } else {
-                            
-                            $data_nilai_pasangan[$j][$k] = (float)$data_nilai_perkriteria[$i][$j][$k]/$data_nilai_perkriteria[$i][sizeof($data_nilai_perkriteria[$i])-1][$k];
+
+                            $data_nilai_pasangan[$j][$k] = (float) $data_nilai_perkriteria[$i][$j][$k] / $data_nilai_perkriteria[$i][sizeof($data_nilai_perkriteria[$i]) - 1][$k];
                         }
                     } else {
                         if ($j == 0 && $k == sizeof($data_nilai_perkriteria[$i][$j])) {
@@ -126,9 +126,9 @@ class M_penilaian extends CI_Model
                             if ($k == sizeof($data_nilai_perkriteria[$i][$j])) {
                                 $sum_eigen = 0;
                                 for ($l = 1; $l < sizeof($data_nilai_pasangan[$j]); $l++) {
-                                    $sum_eigen = (float)($sum_eigen + $data_nilai_pasangan[$j][$l]);
+                                    $sum_eigen = (float) ($sum_eigen + $data_nilai_pasangan[$j][$l]);
                                 }
-    
+
                                 $data_nilai_pasangan[$j][$k] = (float) ($sum_eigen / (sizeof($data_nilai_perkriteria[$i][0]) - 1));
                             }
                         }
@@ -140,6 +140,49 @@ class M_penilaian extends CI_Model
         }
 
         return $data_nilai_normalisasi;
+    }
+
+    public function get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia)
+    {
+        $data_nilai_hasil = array();
+
+        for ($i = 0; $i <= sizeof($data_nilai_normalisasi[0]); $i++) {
+            for ($j = 0; $j <= sizeof($data_kriteria) + 1; $j++) {
+                if ($i == 0 && $j == 0) {
+                    $data_nilai_hasil[$i][$j] = '';
+                } else if ($i == 0 && $j > 0 && $j < sizeof($data_kriteria) + 1) {
+                    $data_nilai_hasil[$i][$j] = $data_kriteria[$j - 1]['nama_kriteria'];
+                } else if ($i == 0 && $j == sizeof($data_kriteria) + 1) {
+                    $data_nilai_hasil[$i][$j] = 'Hasil';
+                } else if ($i == 1) {
+                    if ($j == 0) {
+                        $data_nilai_hasil[$i][$j] = 'Bobot Kriteria';
+                    } else if ($j < sizeof($data_kriteria) + 1) {
+                        $data_nilai_hasil[$i][$j] = $data_kriteria[$j - 1]['bobot_kriteria'];
+                    } else {
+                        $data_nilai_hasil[$i][$j] = '';
+                    }
+                } else {
+                    if ($j == 0) {
+                        $data_nilai_hasil[$i][$j] = $data_panitia[$i - 2]['nama_member'];
+                    } else if ($j > 0 && $j <= sizeof($data_kriteria)) {
+                        $data_nilai_hasil[$i][$j] = $data_nilai_normalisasi[$j - 1][$i - 1][sizeof($data_panitia) + 1];
+                    } else {
+                        // $data_nilai_hasil[$i][$j] = 'v';
+
+                        $sum_hasil = 0;
+                        for ($k=2; $k < sizeof($data_nilai_hasil); $k++) { 
+                            for ($l=1; $l < sizeof($data_nilai_hasil[0]) - 1; $l++) { 
+                                $sum_hasil = $sum_hasil + ($data_nilai_hasil[1][$l] * $data_nilai_hasil[$k][$l]);
+                            }
+                        }
+
+                        $data_nilai_hasil[$i][$j] = $sum_hasil;
+                    }
+                }
+            }
+        }
+        return $data_nilai_hasil;
     }
 
     // echo 'urutan k : '.$k.'<br/>';

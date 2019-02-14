@@ -337,5 +337,45 @@
         </div>
         <?php }?>
         <!-- Table Penilaian Semua Panitia Per Kriteria Berpasangan-->
+
+        <!-- Table Hasil -->
+        <?php if ($id_role == 3 && $data_nilai_hasil != null && !empty($data_nilai_hasil)) {?>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Hasil Penilaian
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <!-- <div class="row clearfix"> -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <?php for ($i = 0; $i < sizeof($data_nilai_hasil[0]); $i++) {?>
+                                            <th><?=$data_nilai_hasil[0][$i]?></th>
+                                            <?php }?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php for ($i = 1; $i < sizeof($data_nilai_hasil); $i++) {?>
+                                        <tr>
+                                            <?php for ($j = 0; $j < sizeof($data_nilai_hasil[$i]); $j++) {?>
+                                            <td><?=$data_nilai_hasil[$i][$j]?></td>
+                                            <?php }?>
+                                        </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }?>
+        <!-- Table Hasil -->
     </div>
 </section>

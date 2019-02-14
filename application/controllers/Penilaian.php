@@ -37,6 +37,8 @@ class Penilaian extends CI_Controller
             'data_nilai' => null,
             'data_nilai_table' => null,
             'data_nilai_perkriteria' => null,
+            'data_nilai_normalisasi' => null,
+            'data_nilai_hasil' => null,
         );
 
         $data = array_merge($data_site, $data_user, $data);
@@ -71,6 +73,8 @@ class Penilaian extends CI_Controller
                 'data_nilai' => null,
                 'data_nilai_table' => null,
                 'data_nilai_perkriteria' => null,
+                'data_nilai_normalisasi' => null,
+                'data_nilai_hasil' => null,
             );
 
             $data = array_merge($data_site, $data_user, $data);
@@ -119,6 +123,8 @@ class Penilaian extends CI_Controller
                 'data_nilai' => $data_nilai,
                 'data_nilai_table' => $data_nilai_table,
                 'data_nilai_perkriteria' => null,
+                'data_nilai_normalisasi' => null,
+                'data_nilai_hasil' => null,
             );
 
             $data = array_merge($data_site, $data_user, $data);
@@ -155,6 +161,7 @@ class Penilaian extends CI_Controller
             $data_nilai_table = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
             $data_nilai_perkriteria = $id_role == 3 ? $this->M_penilaian->get_data_nilai_perkriteria($data_nilai_table, $data_kriteria) : "";
             $data_nilai_normalisasi = $id_role == 3 ? $this->M_penilaian->get_data_nilai_normalisasi($data_nilai_perkriteria) : "";
+            $data_nilai_hasil = $id_role == 3 ? $this->M_penilaian->get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia) : "";
 
             // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
 
@@ -170,11 +177,12 @@ class Penilaian extends CI_Controller
                 'data_nilai_table' => $data_nilai_table,
                 'data_nilai_perkriteria' => $data_nilai_perkriteria,
                 'data_nilai_normalisasi' => $data_nilai_normalisasi,
+                'data_nilai_hasil' => $data_nilai_hasil,
             );
 
             $data = array_merge($data_site, $data_user, $data);
 
-            // print_r(json_encode($data_nilai_normalisasi));
+            // print_r(json_encode($data_nilai_hasil));
             // print_r($data_nilai_perkriteria);
 
             $this->load->view('__template/header', $data);
