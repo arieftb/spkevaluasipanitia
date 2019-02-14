@@ -97,11 +97,11 @@ class Penilaian extends CI_Controller
             $id_periode = $this->M_periode->get_periode_by_id_kegiatan($id_kegiatan)[0]['id_periode'];
             $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_user_koor_panitia($id_kegiatan) ? 4 : 5));
 
-            $data_panitia = $this->M_panitia->get_member_panitia_by_sie($id_kegiatan);
+            $data_panitia = $id_role == 1 || $id_role == 3 ? $this->M_panitia->get_member_panitia_by_kegiatan($id_kegiatan) : $this->M_panitia->get_member_panitia_by_sie($id_kegiatan);
             $data_kegiatan = $this->M_kegiatan->get_kegiatan($id_periode);
             $data_kriteria = $this->M_kriteria->get_kriteria_detail($id_periode);
-            $data_nilai = $this->M_penilaian->get_nilai_by_kegiatan($id_kegiatan);
-
+            $data_nilai = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_nilai_by_kegiatan($id_kegiatan) : $this->M_penilaian->get_nilai_by_sie($id_kegiatan);
+            $data_nilai_table = $id_role == 1 || $id_role == 3 ?  $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
             // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
 
             $data = array(
@@ -113,11 +113,12 @@ class Penilaian extends CI_Controller
                 'data_panitia' => $data_panitia,
                 'data_kriteria' => $data_kriteria,
                 'data_nilai' => $data_nilai,
+                'data_nilai_table' => $data_nilai_table,
             );
 
             $data = array_merge($data_site, $data_user, $data);
 
-            // print_r(json_encode($data));
+            // print_r(json_encode($data_nilai_table));
 
             $this->load->view('__template/header', $data);
             $this->load->view('__template/topbar');

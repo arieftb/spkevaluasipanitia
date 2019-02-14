@@ -28,6 +28,16 @@
             return $this->db->get()->result_array();
         }
 
+        public function get_member_panitia_by_kegiatan($id_kegiatan)
+        {
+            $this->db->from(TB_PANITIA);
+            $this->db->join(TB_MEMBER, TB_MEMBER.'.id_member='.TB_PANITIA.'.id_member');
+            $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->where(TB_PANITIA.'.jabatan_panitia', '1');
+
+            return $this->db->get()->result_array();
+        }
+
         public function get_panitia_by_id($id_panitia)
         {
             $this->db->select();

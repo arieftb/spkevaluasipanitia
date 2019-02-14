@@ -147,8 +147,8 @@
         <?php } ?>
         <!-- Form Penilaian Panitia Perkriteria -->
 
-        <!-- Table Penilaian Panitia Per Kriteria -->
-        <?php if ($id_role != null && $data_panitia != null && $data_kriteria != null && $data_nilai != null && !empty($data_nilai)) { ?>
+        <!-- Table Penilaian Panitia Per Sie Per Kriteria -->
+        <?php if ($id_role != null && $id_role == 5 && $data_panitia != null && $data_kriteria != null && $data_nilai != null && !empty($data_nilai)) { ?>
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -213,6 +213,7 @@
                                     <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="PERBAHARUI"
                                         name="update" />
                                 </div>
+                            </div>
                         </form>
                         <!-- </div> -->
                     </div>
@@ -220,6 +221,57 @@
             </div>
         </div>
         <?php } ?>
-        <!-- Table Penilaian Panitia Per Kriteria -->
+        <!-- Table Penilaian Panitia Per Sie Per Kriteria -->
+
+        <!-- Table Penilaian Semua Panitia Per Kriteria -->
+        <?php if ($id_role != 4 && $data_nilai_table != null && !empty($data_nilai_table)) { ?>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Nilai Panitia
+                        </h2>
+                        <h6>
+                            (0-100)
+                        </h6>
+                    </div>
+                    <div class="body">
+                        <!-- <div class="row clearfix"> -->
+                        <form method="POST" action="<?=base_url() . 'penilaian/process'?>">
+                            <input type='hidden' name='id_kegiatan' value='<?= $id_kegiatan ?>' id="id_kegiatan"
+                                class="form-control" required></input>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <?php for ($i=0; $i < sizeof($data_nilai_table[0]) ; $i++) {  ?>
+                                            <th><?= $data_nilai_table[0][$i] ?></th>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php for ($i=1; $i < sizeof($data_nilai_table) ; $i++) { ?>
+                                        <tr>
+                                            <?php for ($j=0; $j < sizeof($data_nilai_table[$i]); $j++) { ?>
+                                            <td><?= $data_nilai_table[$i][$j] ?></td>
+                                            <?php } ?>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-4">
+                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="PROSES"
+                                        name="process" />
+                                </div>
+                            </div>
+                        </form>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <!-- Table Penilaian Semua Panitia Per Kriteria -->
     </div>
 </section>
