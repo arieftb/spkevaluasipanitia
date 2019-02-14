@@ -14,6 +14,7 @@ class Penilaian extends CI_Controller
         $this->load->model('M_sie');
         $this->load->model('M_kriteria');
         $this->load->model('M_penilaian');
+        $this->load->model('M_hasil');
 
         if (!$this->M_user->get_login_status()) {
             redirect(base_url('login'));
@@ -162,6 +163,14 @@ class Penilaian extends CI_Controller
             $data_nilai_perkriteria = $id_role == 3 ? $this->M_penilaian->get_data_nilai_perkriteria($data_nilai_table, $data_kriteria) : "";
             $data_nilai_normalisasi = $id_role == 3 ? $this->M_penilaian->get_data_nilai_normalisasi($data_nilai_perkriteria) : "";
             $data_nilai_hasil = $id_role == 3 ? $this->M_penilaian->get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia) : "";
+
+            $data_dummy_hasil = $id_role == 1 || $id_role == 3 ? $this->M_hasil->get_hasil_penilaian_by_kegiatan($id_kegiatan) : '';
+
+            // print_r(sizeof($data_dummy_hasil));
+
+            if (sizeof($data_dummy_hasil) == 0) {
+                $this->M_hasil->insert_hasil($data_panitia, $data_nilai_hasil);
+            }
 
             // $id_role = $this->M_user->is_superadmin_by_periode($id_periode) ? 1 : ($this->M_panitia->is_user_panitia($data_user['id_member'], $id_periode) ? ($this->M_panitia->is_ketua_panitia($id_kegiatan) ? 3 : ($this->M_panitia->is_koor_panitia($id_kegiatan) ? 4)) : 5);
 
