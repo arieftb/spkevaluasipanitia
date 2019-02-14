@@ -5,7 +5,9 @@
         {
             $this->db->from(TB_HASIL);
             $this->db->join(TB_PANITIA, TB_PANITIA.'.id_panitia='.TB_HASIL.'.id_panitia');
+            $this->db->join(TB_MEMBER, TB_MEMBER.'.id_member='.TB_PANITIA.'.id_member');
             $this->db->where(TB_PANITIA.'.id_kegiatan', $id_kegiatan);
+            $this->db->order_by(TB_HASIL.'.nilai_hasil', 'desc');
 
             return $this->db->get()->result_array();
         }

@@ -162,7 +162,7 @@ class Penilaian extends CI_Controller
             $data_nilai_table = $id_role == 1 || $id_role == 3 ? $this->M_penilaian->get_data_nilai_table($data_panitia, $data_kriteria, $data_nilai) : "";
             $data_nilai_perkriteria = $id_role == 3 ? $this->M_penilaian->get_data_nilai_perkriteria($data_nilai_table, $data_kriteria) : "";
             $data_nilai_normalisasi = $id_role == 3 ? $this->M_penilaian->get_data_nilai_normalisasi($data_nilai_perkriteria) : "";
-            $data_nilai_hasil = $id_role == 3 ? $this->M_penilaian->get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia) : "";
+            $data_nilai_hasil = $id_role == 3 ? $this->M_penilaian->get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia) : ($id_role == 1 ? $this->M_hasil->get_hasil_penilaian_by_kegiatan($id_kegiatan) : "");
 
             $data_dummy_hasil = $id_role == 1 || $id_role == 3 ? $this->M_hasil->get_hasil_penilaian_by_kegiatan($id_kegiatan) : '';
 
