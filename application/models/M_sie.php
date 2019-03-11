@@ -4,6 +4,7 @@
         public function get_sie()
         {
             $this->db->from(TB_SIE);
+            $this->db->order_by(TB_SIE.'.nama_sie', 'ASC');
             return $this->db->get()->result_array();
         }
 

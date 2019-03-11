@@ -25,7 +25,7 @@ class M_kriteria extends CI_Model
         $this->db->join(TB_KRITERIA, TB_KRITERIA . '.id_kriteria=' . TB_KRITERIA_DETAIL . '.id_kriteria');
         $this->db->join(TB_PERIODE, TB_PERIODE . '.id_periode=' . TB_KRITERIA_DETAIL . '.id_periode');
         $this->db->where(TB_KRITERIA_DETAIL . '.id_periode', $id_periode);
-        $this->db->order_by(TB_KRITERIA_DETAIL.'.prioritas_kriteria', "desc");
+        $this->db->order_by(TB_KRITERIA_DETAIL.'.bobot_kriteria', "desc");
 
         return $this->db->get()->result_array();
     }
@@ -68,10 +68,10 @@ class M_kriteria extends CI_Model
                 } else if ($i > 0 && $j > 0 && $i < sizeof($data_kriteria_detail) + 1) {
                     for ($k = 0; $k < sizeof($data_kriteria_pasangan); $k++) {
                         if ($data_kriteria_detail[$i - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_1'] && $data_kriteria_detail[$j - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_2']) {
-                            $data_compared_matrix[$i][$j] = (float) $data_kriteria_pasangan[$k]['nilai_pasangan_1'];
+                            $data_compared_matrix[$i][$j] = round($data_kriteria_pasangan[$k]['nilai_pasangan_1'], 6);
                             break;
                         } else if ($data_kriteria_detail[$i - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_2'] && $data_kriteria_detail[$j - 1]['id_kriteria'] == $data_kriteria_pasangan[$k]['id_kriteria_1']) {
-                            $data_compared_matrix[$i][$j] = (float) $data_kriteria_pasangan[$k]['nilai_pasangan_2'];
+                            $data_compared_matrix[$i][$j] = round($data_kriteria_pasangan[$k]['nilai_pasangan_2'], 6);
                             break;
                         } else {
                             $data_compared_matrix[$i][$j] = (float) 1;
@@ -88,7 +88,7 @@ class M_kriteria extends CI_Model
                             }
                         }
 
-                        $data_compared_matrix[$i][$j] = round($sum_nilai, 14);
+                        $data_compared_matrix[$i][$j] = round($sum_nilai, 6);
                     }
                 }
             }
@@ -109,7 +109,7 @@ class M_kriteria extends CI_Model
                         if ($j == 0) {
                             $data_normalisasi_matrix[$i][$j] = $data_compared_matrix[$i][$j];
                         } else {
-                            $data_normalisasi_matrix[$i][$j] = $data_compared_matrix[$i][$j] / $data_compared_matrix[sizeof($data_compared_matrix) - 1][$j];
+                            $data_normalisasi_matrix[$i][$j] = round($data_compared_matrix[$i][$j] / $data_compared_matrix[sizeof($data_compared_matrix) - 1][$j], 6);
                         }
                     }
 
@@ -118,7 +118,7 @@ class M_kriteria extends CI_Model
                         if ($j == sizeof($data_compared_matrix[$i])) {
                             $data_normalisasi_matrix[$i][$j] = 'Bobot';
                         } else {
-                            $data_normalisasi_matrix[$i][$j] = 'Prioritas';
+                            $data_normalisasi_matrix[$i][$j] = 'AX';
                         }
                     } else {
                         if ($j == sizeof($data_compared_matrix[$i])) {
@@ -127,7 +127,7 @@ class M_kriteria extends CI_Model
                                 $sum_eigen = $sum_eigen + $data_normalisasi_matrix[$i][$l];
                             }
 
-                            $data_normalisasi_matrix[$i][$j] = $sum_eigen / (sizeof($data_compared_matrix[0]) - 1);
+                            $data_normalisasi_matrix[$i][$j] = round($sum_eigen / (sizeof($data_compared_matrix[0]) - 1), 6);
                         }
                     }
                 }
@@ -141,7 +141,7 @@ class M_kriteria extends CI_Model
                     $sum_prioritas = $sum_prioritas + ($data_compared_matrix[$i][$j] * $data_normalisasi_matrix[$j][sizeof($data_normalisasi_matrix[0]) - 2]);
                 }
             }
-            $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1] = $sum_prioritas;
+            $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1] = round($sum_prioritas, 6);
         }
 
         return $data_normalisasi_matrix;
@@ -151,10 +151,11 @@ class M_kriteria extends CI_Model
     {
 
         $total_kriteria = sizeof($data_normalisasi_matrix[0]) - 3;
+
         $t = $this->get_t_kriteria($data_normalisasi_matrix);
         $CI = $this->get_ci_kriteria($t, $total_kriteria);
         $RI = $this->get_ri_kriteria($total_kriteria);
-        $nilai_konsistensi = $CI/$RI;
+        $nilai_konsistensi = round($CI/$RI,6);
         $is_consist = $nilai_konsistensi < 0.1 ? true : false;
 
         $data_consistency = array(
@@ -181,17 +182,17 @@ class M_kriteria extends CI_Model
 
         $data_t = $sum_t / (sizeof($data_normalisasi_matrix[0]) - 3);
 
-        return $data_t;
+        return round($data_t, 6);
     }
 
     public function get_ci_kriteria($t, $total_kriteria)
     {
-        return ($t - $total_kriteria) / $total_kriteria;
+        return round(($t - $total_kriteria) / $total_kriteria, 6);
     }
 
     public function get_ri_kriteria($total_kriteria)
     {
-        $data_ri = array(0,0,0,0.58,0.9,1.12,1.32,1.41,1.45,1.49);
+        $data_ri = array(0,0,0,0,0.58,0.9,1.12,1.32,1.41,1.45,1.49);
 
         return $data_ri[$total_kriteria];
     }
@@ -242,7 +243,7 @@ class M_kriteria extends CI_Model
         for ($i=1; $i < sizeof($data_normalisasi_matrix); $i++) { 
             $update_kriteri_detail = array(
                 'bobot_kriteria' => $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 2],
-                'prioritas_kriteria' => $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1],
+                'ax_kriteria' => $data_normalisasi_matrix[$i][sizeof($data_normalisasi_matrix[0]) - 1],
             );
 
             $id_kriteria_detail = $data_kriteria_detail[$i - 1]['id_kriteria_detail'];

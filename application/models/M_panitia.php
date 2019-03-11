@@ -9,7 +9,8 @@
             $this->db->join(TB_KEGIATAN, TB_KEGIATAN.'.id_kegiatan='.TB_PANITIA.'.id_kegiatan');
             $this->db->join(TB_SIE, TB_SIE.'.id_sie='.TB_PANITIA.'.id_sie');
             $this->db->where(TB_KEGIATAN.'.id_kegiatan', $id_kegiatan);
-            $this->db->order_by(TB_PANITIA.'.id_sie', 'asc');
+            $this->db->order_by(TB_SIE.'.id_sie', 'ASC');
+            $this->db->order_by(TB_PANITIA.'.jabatan_panitia', 'ASC');
 
             return $this->db->get()->result_array();
         }

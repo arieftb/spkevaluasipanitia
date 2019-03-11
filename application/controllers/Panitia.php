@@ -88,7 +88,8 @@
                 $id_periode = $this->M_periode->get_periode_by_id_kegiatan($id_kegiatan);
                 $data_panitia = $this->M_panitia->get_panitia_by_id_kegiatan($id_kegiatan);
 
-                $member = $this->M_member->get_member_by_periode($id_periode[0]['id_periode']);
+                // $member = $this->M_member->get_member_by_periode($id_periode[0]['id_periode']);
+                $member = $this->M_member->get_member_all();
                 $pengurus = $this->M_pengurus->get_pengurus_by_periode($id_periode[0]['id_periode']);
 
                 $data_calon_panitia = array_merge($member, $pengurus);
@@ -116,7 +117,7 @@
                 $this->load->view('panitia/index');
                 $this->load->view('__template/footer');
 
-                // print_r(json_encode($data));
+                // print_r(json_encode($data_panitia));
             } else {
                 redirect(base_url('panitia'));
             }

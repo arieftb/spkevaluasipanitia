@@ -71,12 +71,7 @@ class M_penilaian extends CI_Model
                     } else if ($j > 0 && $k == 0 && $j != sizeof($data_nilai_table)) {
                         $data_nilai_pasangan[$j][$k] = $data_nilai_table[$j][0];
                     } else if ($j != sizeof($data_nilai_table)) {
-                        // echo 'urutan k : '.$k.'<br/>';
-                        // echo 'urutan i : '.$i.'<br/>';
-                        // echo 'urutan j : '.$j.'<br/>';
-                        // echo $data_nilai_table[$k][$i]." / ".$data_nilai_table[$j][$i].'</br>';
-                        // echo 'hasilnya '.$data_nilai_table[$k][$i]/$data_nilai_table[$j][$i].'</br>';
-                        $data_nilai_pasangan[$j][$k] = (float) $data_nilai_table[$k][$i] / $data_nilai_table[$j][$i];
+                        $data_nilai_pasangan[$j][$k] = round($data_nilai_table[$j][$i] / $data_nilai_table[$k][$i], 6);
                     } else {
                         if ($k == 0) {
                             $data_nilai_pasangan[$j][$k] = 'Jumlah';
@@ -88,9 +83,7 @@ class M_penilaian extends CI_Model
                                 }
                             }
 
-                            // $data_compared_matrix[$i][$j] = round($sum_nilai, 14);
-
-                            $data_nilai_pasangan[$j][$k] = (float) $sum_nilai;
+                            $data_nilai_pasangan[$j][$k] = round($sum_nilai, 6);
                         }
                     }
                 }
@@ -116,20 +109,22 @@ class M_penilaian extends CI_Model
                         } else if ($k == 0) {
                             $data_nilai_pasangan[$j][$k] = $data_nilai_perkriteria[$i][$j][$k];
                         } else {
-
-                            $data_nilai_pasangan[$j][$k] = (float) $data_nilai_perkriteria[$i][$j][$k] / $data_nilai_perkriteria[$i][sizeof($data_nilai_perkriteria[$i]) - 1][$k];
+                            $data_nilai_pasangan[$j][$k] = round($data_nilai_perkriteria[$i][$j][$k] / $data_nilai_perkriteria[$i][sizeof($data_nilai_perkriteria[$i]) - 1][$k], 6);
                         }
                     } else {
                         if ($j == 0 && $k == sizeof($data_nilai_perkriteria[$i][$j])) {
                             $data_nilai_pasangan[$j][$k] = 'Bobot';
+                            // echo 'ukuran = '.sizeof($data_nilai_pasangan[$j]).'<br/>';
                         } else {
                             if ($k == sizeof($data_nilai_perkriteria[$i][$j])) {
                                 $sum_eigen = 0;
-                                for ($l = 1; $l < sizeof($data_nilai_pasangan[$j]); $l++) {
+
+                                $flag = $i == 0 ? 0 : 1;
+                                for ($l = 1; $l < sizeof($data_nilai_pasangan[$j]) - $flag; $l++) {
                                     $sum_eigen = (float) ($sum_eigen + $data_nilai_pasangan[$j][$l]);
                                 }
 
-                                $data_nilai_pasangan[$j][$k] = (float) ($sum_eigen / (sizeof($data_nilai_perkriteria[$i][0]) - 1));
+                                $data_nilai_pasangan[$j][$k] = round(($sum_eigen / (sizeof($data_nilai_perkriteria[$i][0]) - 1)), 6);
                             }
                         }
                     }
@@ -142,12 +137,14 @@ class M_penilaian extends CI_Model
         return $data_nilai_normalisasi;
     }
 
+    // Perhitungan Hasil
     public function get_data_nilai_hasil($data_nilai_normalisasi, $data_kriteria, $data_panitia)
     {
         $data_nilai_hasil = array();
 
         for ($i = 0; $i <= sizeof($data_nilai_normalisasi[0]); $i++) {
             for ($j = 0; $j <= sizeof($data_kriteria) + 1; $j++) {
+                // echo '<br/>posisi j = '.$j.'<br/>';
                 if ($i == 0 && $j == 0) {
                     $data_nilai_hasil[$i][$j] = '';
                 } else if ($i == 0 && $j > 0 && $j < sizeof($data_kriteria) + 1) {
@@ -166,30 +163,27 @@ class M_penilaian extends CI_Model
                     if ($j == 0) {
                         $data_nilai_hasil[$i][$j] = $data_panitia[$i - 2]['nama_member'];
                     } else if ($j > 0 && $j <= sizeof($data_kriteria)) {
+
                         $data_nilai_hasil[$i][$j] = $data_nilai_normalisasi[$j - 1][$i - 1][sizeof($data_panitia) + 1];
+
                     } else {
-                        // $data_nilai_hasil[$i][$j] = 'v';
 
                         $sum_hasil = 0;
-                        for ($k=2; $k < sizeof($data_nilai_hasil); $k++) { 
-                            for ($l=1; $l < sizeof($data_nilai_hasil[0]) - 1; $l++) { 
-                                $sum_hasil = $sum_hasil + ($data_nilai_hasil[1][$l] * $data_nilai_hasil[$k][$l]);
-                            }
+
+                        for ($l = 1; $l < sizeof($data_nilai_hasil[0]) - 1; $l++) {
+                            $sum_hasil = $sum_hasil + ($data_nilai_hasil[1][$l] * $data_nilai_hasil[$i][$l]);
                         }
 
-                        $data_nilai_hasil[$i][$j] = $sum_hasil;
+                        $data_nilai_hasil[$i][$j] = round($sum_hasil, 6);
                     }
                 }
             }
         }
+
         return $data_nilai_hasil;
     }
 
-    // echo 'urutan k : '.$k.'<br/>';
-    // echo 'urutan i : '.$i.'<br/>';
-    // echo $data_nilai_table[$k][$i]." / ".$data_nilai_table[$j][$i].'</br>';
-    // echo 'hasilnya '.$data_nilai_table[$k][$i]/$data_nilai_table[$j][$i].'</br>';
-
+    
     public function insert_nilai($data_nilai)
     {
         $status = true;

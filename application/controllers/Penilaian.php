@@ -130,7 +130,8 @@ class Penilaian extends CI_Controller
 
             $data = array_merge($data_site, $data_user, $data);
 
-            // print_r(json_encode($data_nilai_table));
+            // print_r(json_encode($data_panitia));
+            // print_r($id_role);
 
             $this->load->view('__template/header', $data);
             $this->load->view('__template/topbar');

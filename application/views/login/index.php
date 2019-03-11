@@ -4,7 +4,7 @@
     <section class="">
         <div class="container-fluid">
             <div class="block-header col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3">
-                <center><h4>Sistem Pendukung Keputusan Kinerja Panitia <br/>Amikom Computer Club</h4></center>
+                <center><h4>Sistem Pendukung Keputusan Evaluasi Kinerja Panitia Kegiatan<br/>Amikom Computer Club</h4></center>
             </div>
             <br/>
             <br/>

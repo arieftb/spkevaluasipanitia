@@ -96,7 +96,7 @@
                             <input type='hidden' name='id_kegiatan' value='<?=$id_kegiatan?>' id="id_kegiatan"
                                 class="form-control" required></input>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover">
+                                <table class="table table-bordered table-striped table-hover table-responsive">
                                     <thead>
                                         <tr>
                                             <?php for ($i = 0; $i < sizeof($data_panitia) + 1; $i++) {?>

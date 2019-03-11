@@ -28,7 +28,7 @@ class User extends CI_Controller
                 $this->session->set_userdata($login_data[0]);
 
                 echo "<script>alert('Logged In');
-                    window.location.href='" . base_url('home') . "';</script>";
+                    window.location.href='" . base_url('kegiatan') . "';</script>";
             } else {
                 echo "<script>alert('Email Or Password Is Not Match');
                     window.location.href='" . base_url('login') . "';</script>";

@@ -127,7 +127,7 @@
                                         <?php foreach ($data_calon_panitia as $CALON) { ?>
                                         <option value=" <?= $CALON['id_member'] ?> "
                                             <?= $id_member != null && $id_member == $CALON['id_member'] ? 'selected' :'' ?>>
-                                            <?= $CALON['nama_member'] ?>
+                                            <?= $CALON['nim_member'] ?> - <?= $CALON['nama_member'] ?>
                                         </option>
                                         <?php } ?>
                                     </select>
@@ -176,12 +176,12 @@
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <table class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr>
+                                        <th>Nama</th>
                                         <th>Sie</th>
                                         <th>Jabatan</th>
-                                        <th>Nama</th>
                                         <!-- <th>Ketua Panitia</th> -->
                                         <th></th>
                                     </tr>
@@ -190,13 +190,13 @@
                                     <?php foreach ($data_panitia as $PANITIA) { ?>
                                     <tr>
                                         <td>
+                                            <?= $PANITIA['nama_member'] ?>
+                                        </td>
+                                        <td>
                                             <?= $PANITIA['nama_sie'] ?>
                                         </td>
                                         <td>
                                             <?= $PANITIA['jabatan_panitia'] == 0 ? 'Koordinator' : 'Anggota' ?>
-                                        </td>
-                                        <td>
-                                            <?= $PANITIA['nama_member'] ?>
                                         </td>
                                         <!-- <td></td> -->
                                         <td>

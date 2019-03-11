@@ -25,12 +25,6 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class=" <?= $title == HOME_TITLE ? 'active' : '' ?> ">
-                        <a href="<?= base_url(). 'home' ?>">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
-                        </a>
-                    </li>
                     <li class=" <?= $title == KEGIATAN_TITLE ? 'active' : '' ?> ">
                         <a href="<?= base_url(). 'kegiatan' ?>">
                             <i class="material-icons">date_range</i>
@@ -61,7 +55,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                    &copy; 2016 - 2018 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 1.0.5

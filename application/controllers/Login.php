@@ -8,7 +8,7 @@
             $this->load->model('M_user');
 
             if($this->M_user->get_login_status()) {
-                redirect(base_url('home'));
+                redirect(base_url('kegiatan'));
             }
         }
 
